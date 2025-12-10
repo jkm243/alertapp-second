@@ -85,10 +85,23 @@ class AuthenticationService extends ChangeNotifier {
         return AuthResult.error('Le mot de passe doit contenir au moins 6 caractères');
       }
 
-      final loginResponse = await ApiService.login(
-        email: email,
-        password: password,
-      );
+      // Retry once on timeout/network error (improves flakiness seen on first attempt)
+      int attempts = 0;
+      dynamic loginResponse;
+      while (attempts < 2) {
+        try {
+          loginResponse = await ApiService.login(
+            email: email,
+            password: password,
+          );
+          break;
+        } catch (e) {
+          attempts++;
+          if (attempts >= 2) rethrow;
+          // If it's a timeout, wait briefly then retry
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+      }
 
       _accessToken = loginResponse.token.access;
       _currentUser = loginResponse.user;
@@ -150,16 +163,27 @@ class AuthenticationService extends ChangeNotifier {
         return AuthResult.error('Le nom du milieu contient des caractères non autorisés ou est trop long');
       }
 
-      await ApiService.signup(
-        email: email,
-        password1: password1,
-        password2: password2,
-        firstname: firstname,
-        lastname: lastname,
-        middlename: middlename,
-        telephone: telephone,
-        role: role,
-      );
+      // Retry once on transient network/timeout errors
+      int attempts = 0;
+      while (attempts < 2) {
+        try {
+          await ApiService.signup(
+            email: email,
+            password1: password1,
+            password2: password2,
+            firstname: firstname,
+            lastname: lastname,
+            middlename: middlename,
+            telephone: telephone,
+            role: role,
+          );
+          break;
+        } catch (e) {
+          attempts++;
+          if (attempts >= 2) rethrow;
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+      }
 
       return AuthResult.success('Inscription réussie. Vous pouvez maintenant vous connecter.');
     } on ApiError catch (e) {

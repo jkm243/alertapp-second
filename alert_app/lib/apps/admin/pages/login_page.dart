@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../services/authentication_service.dart';
+import '../../../models/api_models.dart';
 import '../../admin/admin_home.dart';
 import 'signup_page.dart';
 
@@ -37,7 +38,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
 
       if (result.isSuccess) {
         // only allow Admin role
-        if (authService.currentUser?.role == 'Admin') {
+        if (authService.currentUser?.role == RoleEnum.admin) {
           if (mounted) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const AdminHomePage()),
@@ -61,8 +62,21 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       }
     } catch (e) {
       if (mounted) {
+        String errorMessage = 'Erreur de connexion';
+        if (e.toString().contains('TimeoutException')) {
+          errorMessage = 'Délai d\'attente dépassé. Le serveur met trop de temps à répondre.';
+        } else if (e.toString().contains('SocketException')) {
+          errorMessage = 'Erreur de connexion réseau. Vérifiez votre connexion internet.';
+        } else {
+          errorMessage = 'Erreur de connexion: ${e.toString()}';
+        }
+        
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur de connexion: ${e.toString()}'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
         );
       }
     } finally {

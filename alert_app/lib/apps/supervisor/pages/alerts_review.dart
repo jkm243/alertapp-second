@@ -53,18 +53,22 @@ class _AlertsReviewPageState extends State<AlertsReviewPage> {
                       onSelected: (value) async {
                         if (value == 'approve') {
                           final ok = await SupervisorService.approveAlert(a.id);
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'Alerte approuvée' : 'Erreur')));
                           _refresh();
                         } else if (value == 'refuse') {
                           final ok = await SupervisorService.refuseAlert(a.id);
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'Alerte refusée' : 'Erreur')));
                           _refresh();
                         } else if (value == 'drone') {
                           final ok = await SupervisorService.sendDroneMission(a.id);
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'Mission drone envoyée' : 'Échec')));
                         } else if (value == 'video') {
                           // Placeholder: In a real app you'd pick a file and upload
                           final ok = await SupervisorService.attachVideo(a.id, 'local/path/video.mp4');
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(ok ? 'Vidéo attachée' : 'Échec')));
                           _refresh();
                         }

@@ -262,7 +262,7 @@ class _AppInputState extends State<AppInput> with SingleTickerProviderStateMixin
     if (_isFocused) {
       return [
         BoxShadow(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           blurRadius: 4,
           spreadRadius: 0,
         ),

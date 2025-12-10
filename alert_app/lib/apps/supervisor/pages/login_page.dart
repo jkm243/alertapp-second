@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../services/authentication_service.dart';
+import '../../../models/api_models.dart';
 import '../../supervisor/supervisor_home.dart';
 import 'signup_page.dart';
 
@@ -36,34 +37,30 @@ class _SupervisorLoginPageState extends State<SupervisorLoginPage> {
       );
 
       if (result.isSuccess) {
-        // only allow Supervisor role
-        if (authService.currentUser?.role == 'Supervisor') {
-          if (mounted) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const SupervisorHomePage()),
-            );
-          }
+        // only allow Supervisor role (Operator in the enum)
+        if (authService.currentUser?.role == RoleEnum.operator) {
+          if (!mounted) return;
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const SupervisorHomePage()),
+          );
         } else {
           await authService.logout();
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Accès refusé — rôle Supervisor requis')),
-            );
-          }
-        }
-      } else {
-        if (mounted) {
+          if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(result.message), backgroundColor: Colors.red),
+            const SnackBar(content: Text('Accès refusé — rôle Supervisor requis')),
           );
         }
-      }
-    } catch (e) {
-      if (mounted) {
+      } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur de connexion: ${e.toString()}'), backgroundColor: Colors.red),
+          SnackBar(content: Text(result.message), backgroundColor: Colors.red),
         );
       }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erreur de connexion: ${e.toString()}'), backgroundColor: Colors.red),
+      );
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

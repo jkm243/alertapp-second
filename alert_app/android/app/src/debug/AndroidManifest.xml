@@ -5,8 +5,4 @@
     -->
     <!-- Permission internet obligatoire pour les appels API -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    
-        <!-- autres activités et meta-données ici -->
-    </application>
-
 </manifest>

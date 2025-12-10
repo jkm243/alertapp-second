@@ -1,5 +1,3 @@
-import '../models/api_models.dart';
-
 class SupervisorService {
   // Mocked alerts list
   static final List<AlertItem> _alerts = [
@@ -47,6 +45,18 @@ class SupervisorService {
       return true;
     }
     return false;
+  }
+
+  // Create a new alert (used by users to submit an alert)
+  static Future<bool> createAlert({
+    required String title,
+    required String description,
+    required String location,
+  }) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
+    _alerts.add(AlertItem(id: id, title: title, description: description, location: location, isPublished: false));
+    return true;
   }
 }
 

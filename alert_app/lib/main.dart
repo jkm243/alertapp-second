@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/onboarding/onboarding_page.dart';
 import 'pages/auth/login_page.dart';
+import 'pages/user/add_alert_page.dart';
 import 'design_system/theme.dart';
 import 'design_system/examples/badge_example.dart';
 import 'design_system/examples/design_system_demo.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       home: OnboardingPage(),
       routes: {
         '/login': (context) => LoginPage(),
+        '/add-alert': (context) => const AddAlertPage(),
         '/badge-example': (context) => const BadgeExample(),
         '/design-system': (context) => const DesignSystemDemo(),
         '/usage-example': (context) => const UsageExample(),

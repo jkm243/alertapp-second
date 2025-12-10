@@ -178,13 +178,12 @@ class _HomePageState extends State<HomePage> {
               final authService = AuthenticationService();
               await authService.logout();
               
-              if (mounted) {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                );
-              }
+              if (!mounted) return;
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              );
             },
             child: const Text('Déconnexion'),
           ),

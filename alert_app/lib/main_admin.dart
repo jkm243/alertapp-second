@@ -5,6 +5,7 @@ import 'apps/admin/pages/signup_page.dart';
 import 'apps/admin/pages/user_management.dart';
 import 'widgets/auth_guard.dart';
 import 'design_system/theme.dart';
+import 'models/api_models.dart';
 
 void main() => runApp(AdminApp());
 
@@ -20,7 +21,7 @@ class AdminApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       // RoleGuard will show login page by default if not authenticated or wrong role
       home: const RoleGuard(
-        allowedRole: 'Admin',
+        allowedRole: RoleEnum.admin,
         loginPage: AdminLoginPage(),
         homePage: AdminHomePage(),
       ),

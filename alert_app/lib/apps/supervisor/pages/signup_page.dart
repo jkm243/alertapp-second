@@ -40,20 +40,47 @@ class _SupervisorSignupPageState extends State<SupervisorSignupPage> {
         password2: _passwordConfirmController.text,
         firstname: _firstNameController.text.trim(),
         lastname: _lastNameController.text.trim(),
-        role: 'Supervisor',
+        role: 'Operator',
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result.message), backgroundColor: result.isSuccess ? Colors.green : Colors.red),
-        );
-
-        if (result.isSuccess) Navigator.of(context).pop();
+        if (result.isSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.message),
+              backgroundColor: Colors.green,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+          await Future.delayed(const Duration(milliseconds: 500));
+          if (mounted) Navigator.of(context).pop();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(result.message),
+              backgroundColor: Colors.red,
+              duration: const Duration(seconds: 5),
+            ),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
+        String errorMessage = 'Erreur lors de l\'inscription';
+        if (e.toString().contains('TimeoutException')) {
+          errorMessage = 'Délai d\'attente dépassé. Le serveur met trop de temps à répondre.';
+        } else if (e.toString().contains('SocketException')) {
+          errorMessage = 'Erreur de connexion réseau. Vérifiez votre connexion internet.';
+        } else {
+          errorMessage = 'Erreur: ${e.toString()}';
+        }
+        
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erreur: ${e.toString()}'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(errorMessage),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
         );
       }
     } finally {

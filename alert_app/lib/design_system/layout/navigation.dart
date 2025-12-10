@@ -140,7 +140,7 @@ class _AppBottomNavigationState extends State<AppBottomNavigation>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, -2),
           ),
@@ -333,7 +333,7 @@ class AppDrawer extends StatelessWidget {
                     Text(
                       userEmail!,
                       style: AppTypography.bodySmall.copyWith(
-                        color: Colors.white.withOpacity(0.8),
+                        color: Colors.white.withValues(alpha: 0.8),
                       ),
                     ),
                 ],
@@ -386,7 +386,7 @@ class AppDrawer extends StatelessWidget {
             )
           : item.trailing,
       selected: item.isSelected,
-      selectedTileColor: AppColors.primary.withOpacity(0.1),
+      selectedTileColor: AppColors.primary.withValues(alpha: 0.1),
       onTap: item.onTap,
     );
   }

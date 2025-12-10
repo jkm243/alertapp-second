@@ -232,7 +232,7 @@ class AppTheme {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 2,
-        shadowColor: AppColors.primary.withOpacity(0.3),
+        shadowColor: AppColors.primary.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(
           borderRadius: AppBorderRadius.mdRadius,
         ),
@@ -252,7 +252,7 @@ class AppTheme {
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
         elevation: 2,
-        shadowColor: AppColors.primary.withOpacity(0.3),
+        shadowColor: AppColors.primary.withValues(alpha: 0.3),
         shape: RoundedRectangleBorder(
           borderRadius: AppBorderRadius.mdRadius,
         ),
@@ -598,7 +598,7 @@ class AppTheme {
     return ChipThemeData(
       backgroundColor: AppColors.muted,
       selectedColor: AppColors.primary,
-      disabledColor: AppColors.mutedForeground.withOpacity(0.5),
+      disabledColor: AppColors.mutedForeground.withValues(alpha: 0.5),
       labelStyle: AppTypography.bodySmall,
       secondaryLabelStyle: AppTypography.bodySmall,
       brightness: Brightness.light,
@@ -617,7 +617,7 @@ class AppTheme {
     return ChipThemeData(
       backgroundColor: AppColorsDark.muted,
       selectedColor: AppColors.primary,
-      disabledColor: AppColorsDark.mutedForeground.withOpacity(0.5),
+      disabledColor: AppColorsDark.mutedForeground.withValues(alpha: 0.5),
       labelStyle: AppTypography.bodySmall.copyWith(color: AppColorsDark.foreground),
       secondaryLabelStyle: AppTypography.bodySmall.copyWith(color: AppColorsDark.foreground),
       brightness: Brightness.dark,
@@ -637,7 +637,7 @@ class AppTheme {
       activeTrackColor: AppColors.primary,
       inactiveTrackColor: AppColors.border,
       thumbColor: AppColors.primary,
-      overlayColor: AppColors.primary.withOpacity(0.2),
+      overlayColor: AppColors.primary.withValues(alpha: 0.2),
       valueIndicatorColor: AppColors.primary,
       valueIndicatorTextStyle: AppTypography.caption.copyWith(color: Colors.white),
     );
@@ -649,7 +649,7 @@ class AppTheme {
       activeTrackColor: AppColors.primary,
       inactiveTrackColor: AppColorsDark.border,
       thumbColor: AppColors.primary,
-      overlayColor: AppColors.primary.withOpacity(0.2),
+      overlayColor: AppColors.primary.withValues(alpha: 0.2),
       valueIndicatorColor: AppColors.primary,
       valueIndicatorTextStyle: AppTypography.caption.copyWith(color: Colors.white),
     );

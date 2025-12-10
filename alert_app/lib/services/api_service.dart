@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import '../models/api_models.dart';
 import '../config/api_config.dart';
@@ -19,10 +20,87 @@ class ApiService {
   static ApiError _handleHttpError(http.Response response) {
     try {
       final errorData = json.decode(response.body);
-      return ApiError.fromJson(errorData);
-    } catch (e) {
+      
+      // Essayer de parser comme ApiError standard
+      if (errorData is Map<String, dynamic>) {
+        // Vérifier si c'est un format d'erreur Django REST Framework
+        if (errorData.containsKey('message')) {
+          return ApiError(
+            message: errorData['message'] as String,
+            detail: errorData['detail'] as String?,
+            statusCode: response.statusCode,
+          );
+        }
+        
+        // Vérifier si c'est un format d'erreur avec 'error' ou 'errors'
+        if (errorData.containsKey('error')) {
+          final error = errorData['error'];
+          if (error is String) {
+            return ApiError(
+              message: error,
+              statusCode: response.statusCode,
+            );
+          }
+        }
+        
+        if (errorData.containsKey('errors')) {
+          final errors = errorData['errors'];
+          if (errors is Map) {
+            // Extraire le premier message d'erreur
+            final firstError = errors.values.first;
+            if (firstError is List && firstError.isNotEmpty) {
+              return ApiError(
+                message: firstError.first.toString(),
+                statusCode: response.statusCode,
+              );
+            }
+          }
+        }
+        
+        // Vérifier les erreurs de validation Django (format avec champs)
+        final errorMessages = <String>[];
+        errorData.forEach((key, value) {
+          if (value is List && value.isNotEmpty) {
+            errorMessages.add('$key: ${value.first}');
+          } else if (value is String) {
+            errorMessages.add('$key: $value');
+          }
+        });
+        
+        if (errorMessages.isNotEmpty) {
+          return ApiError(
+            message: errorMessages.join(', '),
+            statusCode: response.statusCode,
+          );
+        }
+        
+        // Essayer ApiError.fromJson en dernier recours
+        return ApiError.fromJson(errorData);
+      }
+      
       return ApiError(
         message: 'Erreur de communication avec le serveur',
+        statusCode: response.statusCode,
+      );
+    } catch (e) {
+      // Si le body n'est pas du JSON valide, retourner un message générique
+      String message = 'Erreur de communication avec le serveur';
+      if (response.statusCode == 400) {
+        message = 'Requête invalide. Vérifiez vos données.';
+      } else if (response.statusCode == 401) {
+        message = 'Identifiants incorrects';
+      } else if (response.statusCode == 403) {
+        message = 'Accès refusé';
+      } else if (response.statusCode == 404) {
+        message = 'Ressource non trouvée';
+      } else if (response.statusCode == 409) {
+        message = 'Cet utilisateur existe déjà';
+      } else if (response.statusCode >= 500) {
+        message = 'Erreur serveur. Veuillez réessayer plus tard.';
+      }
+      
+      return ApiError(
+        message: message,
         statusCode: response.statusCode,
       );
     }
@@ -33,6 +111,10 @@ class ApiService {
     if (error is SocketException) {
       return ApiError(
         message: 'Erreur de connexion réseau. Vérifiez votre connexion internet.',
+      );
+    } else if (error is TimeoutException) {
+      return ApiError(
+        message: ApiConfig.timeoutErrorMessage,
       );
     } else if (error is HttpException) {
       return ApiError(
@@ -263,6 +345,67 @@ class ApiService {
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         return User.fromJson(responseData);
+      } else {
+        throw _handleHttpError(response);
+      }
+    } catch (e) {
+      if (e is ApiError) rethrow;
+      throw _handleNetworkError(e);
+    }
+  }
+
+  /// Récupération de tous les utilisateurs (Admin uniquement)
+  static Future<List<User>> getAllUsers(String token) async {
+    try {
+      final response = await http
+          .get(
+            Uri.parse('${ApiConfig.baseUrl}${ApiConfig.usersAllEndpoint}'),
+            headers: _getAuthHeaders(token),
+          )
+          .timeout(ApiConfig.requestTimeout);
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        if (responseData is List) {
+          return responseData.map((userJson) => User.fromJson(userJson)).toList();
+        } else {
+          throw ApiError(message: 'Format de réponse invalide');
+        }
+      } else {
+        throw _handleHttpError(response);
+      }
+    } catch (e) {
+      if (e is ApiError) rethrow;
+      throw _handleNetworkError(e);
+    }
+  }
+
+  /// Récupération des utilisateurs avec pagination (Admin uniquement)
+  static Future<UserPagination> getUsersPaginated({
+    required String token,
+    int? page,
+    int? pageSize,
+    String? search,
+  }) async {
+    try {
+      final queryParams = <String, String>{};
+      if (page != null) queryParams['page'] = page.toString();
+      if (pageSize != null) queryParams['page_size'] = pageSize.toString();
+      if (search != null && search.isNotEmpty) queryParams['search'] = search;
+
+      final uri = Uri.parse('${ApiConfig.baseUrl}${ApiConfig.usersPaginationEndpoint}')
+          .replace(queryParameters: queryParams.isEmpty ? null : queryParams);
+
+      final response = await http
+          .get(
+            uri,
+            headers: _getAuthHeaders(token),
+          )
+          .timeout(ApiConfig.requestTimeout);
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return UserPagination.fromJson(responseData);
       } else {
         throw _handleHttpError(response);
       }

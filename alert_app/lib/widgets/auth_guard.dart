@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../services/authentication_service.dart';
+import '../models/api_models.dart';
 
 /// Role-based guard widget — shows the login page if not authenticated or role mismatch,
 /// otherwise shows the protected home.
 class RoleGuard extends StatefulWidget {
-  final String allowedRole;
+  final RoleEnum allowedRole;
   final Widget loginPage;
   final Widget homePage;
 

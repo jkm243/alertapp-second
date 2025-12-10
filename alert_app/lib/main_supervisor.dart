@@ -5,6 +5,7 @@ import 'apps/supervisor/pages/signup_page.dart';
 import 'apps/supervisor/pages/alerts_review.dart';
 import 'widgets/auth_guard.dart';
 import 'design_system/theme.dart';
+import 'models/api_models.dart';
 
 void main() => runApp(SupervisorApp());
 
@@ -20,7 +21,7 @@ class SupervisorApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       // The RoleGuard handles token verification and role checks.
       home: const RoleGuard(
-        allowedRole: 'Supervisor',
+        allowedRole: RoleEnum.operator,
         loginPage: SupervisorLoginPage(),
         homePage: SupervisorHomePage(),
       ),

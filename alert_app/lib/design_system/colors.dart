@@ -97,12 +97,12 @@ class AppColorsDark {
 extension AppColorsExtension on Color {
   /// Retourne la couleur avec opacité
   Color withOpacity(double opacity) {
-    return Color.fromRGBO(red, green, blue, opacity);
+    return Color.fromRGBO((r * 255.0).round().clamp(0, 255), (g * 255.0).round().clamp(0, 255), (b * 255.0).round().clamp(0, 255), opacity);
   }
-  
+
   /// Retourne la couleur avec alpha
   Color withAlpha(int alpha) {
-    return Color.fromARGB(alpha, red, green, blue);
+    return Color.fromARGB(alpha, (r * 255.0).round().clamp(0, 255), (g * 255.0).round().clamp(0, 255), (b * 255.0).round().clamp(0, 255));
   }
 }
 

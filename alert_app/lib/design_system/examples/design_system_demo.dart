@@ -405,7 +405,7 @@ class _DesignSystemDemoState extends State<DesignSystemDemo> {
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    '#${colorData.$2.value.toRadixString(16).substring(2).toUpperCase()}',
+                    '#${colorData.$2.toARGB32().toRadixString(16).substring(2).toUpperCase()}',
                     style: AppTypography.caption.copyWith(
                       color: _getContrastColor(colorData.$2),
                       fontSize: 10,

@@ -63,10 +63,20 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       if (mounted) {
+        String errorMessage = 'Erreur de connexion';
+        if (e.toString().contains('TimeoutException')) {
+          errorMessage = 'Délai d\'attente dépassé. Le serveur met trop de temps à répondre.';
+        } else if (e.toString().contains('SocketException')) {
+          errorMessage = 'Erreur de connexion réseau. Vérifiez votre connexion internet.';
+        } else {
+          errorMessage = 'Erreur de connexion: ${e.toString()}';
+        }
+        
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erreur de connexion: ${e.toString()}'),
+            content: Text(errorMessage),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
           ),
         );
       }
@@ -129,15 +139,19 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  cursorColor: Theme.of(context).colorScheme.onSurface,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Email',
                     hintText: 'votre@email.com',
-                    prefixIcon: const Icon(Icons.email_outlined),
+                    hintStyle: TextStyle(color: Colors.grey[500]),
+                    labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                    prefixIcon: Icon(Icons.email_outlined, color: Theme.of(context).iconTheme.color),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -162,13 +176,20 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: _passwordController,
                   obscureText: _obscurePassword,
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                  cursorColor: Theme.of(context).colorScheme.onSurface,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Mot de passe',
                     hintText: 'Votre mot de passe',
-                    prefixIcon: const Icon(Icons.lock_outlined),
+                    hintStyle: TextStyle(color: Colors.grey[500]),
+                    labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+                    prefixIcon: Icon(Icons.lock_outlined, color: Theme.of(context).iconTheme.color),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                        color: Theme.of(context).iconTheme.color,
                       ),
                       onPressed: () {
                         setState(() {
@@ -179,8 +200,6 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    filled: true,
-                    fillColor: Colors.white,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {

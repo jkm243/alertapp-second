@@ -16,6 +16,26 @@ flutter run
 ```
 
 Run the admin app:
+## Pushing to a remote repository
+
+If you want to push local changes to a remote Git repo, use the script in `.github/scripts/push_changes.ps1`.
+
+Example:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .github/scripts/push_changes.ps1 -RemoteUrl 'https://github.com/jkm243/alertapp-second.git' -Branch 'feature/role-split' -CommitMessage 'Add role-based apps and Supervisor features'
+```
+
+If you prefer manual steps:
+
+```powershell
+git remote add origin https://github.com/jkm243/alertapp-second.git
+git checkout -b feature/role-split
+git add -A
+git commit -m "Add role-based apps and Supervisor features"
+git push --set-upstream origin feature/role-split
+```
+
 
 ```powershell
 flutter run -t lib/main_admin.dart
