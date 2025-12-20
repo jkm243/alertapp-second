@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Détails de l'Alerte</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', 'SF Pro Display', sans-serif;
+            min-height: 100vh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-red': '#D32F2F',
+                        'background': '#121212',
+                        'surface': '#1E1E1E',
+                        'on-surface': '#FFFFFF',
+                        'on-surface-variant': '#BDBDBD',
+                        'high-urgency': '#EF5350',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<div class="max-w-md mx-auto min-h-screen flex flex-col">
+<header class="flex items-center p-4 sticky top-0 bg-background/90 backdrop-blur-sm z-10 border-b border-white/10">
+<button class="p-2 -ml-2 text-on-surface">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<h1 class="text-xl font-semibold flex-1 text-center">Détails de l'Alerte</h1>
+<button class="p-2 text-on-surface">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<main class="flex-grow p-4 space-y-6">
+<div class="bg-surface rounded-lg p-4">
+<div class="flex items-center mb-3">
+<span class="material-symbols-outlined text-primary-red mr-2">notifications_active</span>
+<h2 class="text-lg font-bold text-primary-red">Vol à main armée</h2>
+</div>
+<div class="space-y-4">
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mt-1 mr-3">location_on</span>
+<div>
+<p class="font-semibold text-on-surface">Lieu</p>
+<p class="text-on-surface-variant">Av. de la Démocratie, Gombe, Kinshasa</p>
+</div>
+</div>
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mt-1 mr-3">gpp_maybe</span>
+<div>
+<p class="font-semibold text-on-surface">Type d'Alerte</p>
+<p class="text-on-surface-variant">Criminalité</p>
+</div>
+</div>
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mt-1 mr-3">priority_high</span>
+<div>
+<p class="font-semibold text-on-surface">Niveau d'Urgence</p>
+<p class="text-high-urgency font-bold">Élevé</p>
+</div>
+</div>
+<div class="flex items-start">
+<span class="material-symbols-outlined text-on-surface-variant mt-1 mr-3">schedule</span>
+<div>
+<p class="font-semibold text-on-surface">Heure</p>
+<p class="text-on-surface-variant">20:45 - Il y a 15 minutes</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<h3 class="text-lg font-semibold mb-2">Description</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                    Un vol à main armée a été signalé près du supermarché local. Les suspects seraient au nombre de trois et se sont enfuis à bord d'une moto. La zone est actuellement bouclée par la police. Veuillez éviter le secteur et rester prudent.
+                 </p>
+</div>
+<div class="bg-surface rounded-lg p-4">
+<h3 class="text-lg font-semibold mb-3">Médias</h3>
+<div class="grid grid-cols-2 gap-2">
+<div class="w-full h-32 bg-center bg-no-repeat bg-cover rounded-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfSifRoCFnMR5VlKeMBAXgkvPRji7G6i91jkJCtoF-mDa0R3-hzBWfbFBAIB7ueIcfi_6mhF0aHrsH2y97OKfu93bOpcIGq_EDWDsjjuyzO7CUwTIJz9B5ZFLYmO4zbaUjkx6rgamMI_RMsoyNHvVmWM-iXqFF98evDSgs1mjS3nTRk_Gkf_IgnwdBg4ArZSlIn0WqcKrpA-sxcsF1Ooj30f7xlcOoipvPQ7U_uR9-VNadP8bJvhbbxBEHSQeqiJVBAQiYuEGlkL3m");'></div>
+<div class="w-full h-32 bg-center bg-no-repeat bg-cover rounded-md" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAfSifRoCFnMR5VlKeMBAXgkvPRji7G6i91jkJCtoF-mDa0R3-hzBWfbFBAIB7ueIcfi_6mhF0aHrsH2y97OKfu93bOpcIGq_EDWDsjjuyzO7CUwTIJz9B5ZFLYmO4zbaUjkx6rgamMI_RMsoyNHvVmWM-iXqFF98evDSgs1mjS3nTRk_Gkf_IgnwdBg4ArZSlIn0WqcKrpA-sxcsF1Ooj30f7xlcOoipvPQ7U_uR9-VNadP8bJvhbbxBEHSQeqiJVBAQiYuEGlkL3m");'></div>
+</div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-background/90 backdrop-blur-sm mt-4 border-t border-white/10">
+<div class="flex justify-around items-center py-2">
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-xs">Accueil</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-primary-red" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="text-xs font-semibold">Alertes</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-xs">Carte</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs">Profil</span>
+</a>
+</div>
+</footer>
+</div>
+
+</body></html>

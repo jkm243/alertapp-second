@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Real-time Alerts DRC</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#fa3333",
+            "background-light": "#f8f5f5",
+            "background-dark": "#230f0f",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .form-input.form-input-light::placeholder {
+      color: #9e4747;
+    }
+    .form-input.form-input-dark::placeholder {
+      color: #f8f5f580;
+    }
+    .form-checkbox:checked {
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="flex flex-col min-h-screen">
+<main class="flex-grow flex flex-col justify-center px-6 py-12">
+<div class="mx-auto w-full max-w-md">
+<h1 class="text-4xl font-bold text-center text-primary mb-2">Welcome</h1>
+<p class="text-center text-primary/80 dark:text-background-light/80 mb-8">Sign in to continue</p>
+<div class="space-y-4">
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 form-input-light dark:form-input-dark" placeholder="Email or Username" type="text"/>
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 form-input-light dark:form-input-dark" placeholder="Password" type="password"/>
+</div>
+<a class="block text-right text-sm text-primary dark:text-background-light/80 mt-4 underline" href="#">Forgot Password?</a>
+<button class="w-full bg-primary text-white font-bold h-12 rounded-lg mt-6">Sign In</button>
+<div class="flex items-center my-8">
+<hr class="flex-grow border-primary/20 dark:border-background-light/20"/>
+<span class="px-4 text-sm text-primary/80 dark:text-background-light/80">OR</span>
+<hr class="flex-grow border-primary/20 dark:border-background-light/20"/>
+</div>
+<div class="space-y-6" id="register-form">
+<h2 class="text-2xl font-bold text-center text-primary dark:text-background-light mb-4">Create Account</h2>
+<div class="space-y-4">
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 form-input-light dark:form-input-dark" placeholder="Email" type="email"/>
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 form-input-light dark:form-input-dark" placeholder="Username" type="text"/>
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 form-input-light dark:form-input-dark" placeholder="Password" type="password"/>
+<div class="relative">
+<input class="form-input w-full rounded-lg border-none bg-primary/10 dark:bg-primary/20 text-primary dark:text-background-light h-14 px-4 pr-10 form-input-light dark:form-input-dark" readonly="" type="text" value="République Démocratique du Congo"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+<svg class="h-5 w-5 text-primary dark:text-background-light/80" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" fill-rule="evenodd"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="flex items-center mt-6">
+<input class="form-checkbox h-5 w-5 rounded border-primary/50 dark:border-background-light/50 bg-transparent text-primary focus:ring-0 focus:ring-offset-0" id="terms" type="checkbox"/>
+<label class="ml-3 text-sm text-primary dark:text-background-light/80" for="terms">I agree to the <a class="underline" href="#">Terms and Conditions</a></label>
+</div>
+<button class="w-full bg-primary text-white font-bold h-12 rounded-lg mt-6">Register</button>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

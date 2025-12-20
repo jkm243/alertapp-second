@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onboarding - Alertes en temps réel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --rouge: #E53E3E;
+            --noir: #1A1A1A;
+            --blanc: #FFFFFF;
+            --gris: #A0AEC0;
+            --gris-clair: #F7FAFC;
+        }
+        body {
+            font-family: 'Inter', 'SF Pro Display', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--blanc)] text-[var(--noir)]">
+<div class="flex flex-col h-screen p-6 justify-between">
+<header class="flex justify-end">
+<button class="text-[var(--noir)] font-medium">Passer</button>
+</header>
+<main class="flex flex-col items-center text-center -mt-16">
+<div class="bg-[var(--rouge)] p-8 rounded-full mb-8">
+<svg class="h-20 w-20 text-[var(--blanc)]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C7.589 2 4 5.589 4 10C4 14.872 10.932 21.488 11.458 21.895C11.603 22.005 11.799 22.062 12 22.062C12.201 22.062 12.397 22.005 12.542 21.895C13.068 21.488 20 14.872 20 10C20 5.589 16.411 2 12 2ZM12 14C10.343 14 9 12.657 9 11C9 9.343 10.343 8 12 8C13.657 8 15 9.343 15 11C15 12.657 13.657 14 12 14Z"></path>
+</svg>
+</div>
+<h1 class="text-2xl font-bold text-[var(--noir)] mb-4">Alertes géolocalisées en temps réel</h1>
+<p class="text-[var(--gris)] max-w-sm">
+                Recevez des notifications instantanées sur les incidents de sécurité dans votre zone pour rester en sécurité et informé.
+            </p>
+</main>
+<footer class="flex flex-col items-center gap-6">
+<div class="flex space-x-2">
+<div class="w-3 h-3 bg-[var(--rouge)] rounded-full"></div>
+<div class="w-3 h-3 bg-[#E2E8F0] rounded-full"></div>
+<div class="w-3 h-3 bg-[#E2E8F0] rounded-full"></div>
+</div>
+<button class="w-full bg-[var(--rouge)] text-[var(--blanc)] font-bold py-4 rounded-lg">
+                Suivant
+            </button>
+</footer>
+</div>
+
+</body></html>

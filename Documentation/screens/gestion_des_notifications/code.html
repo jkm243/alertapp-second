@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#fa3333",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#230f0f",
+                        "content-light": "#1c0d0d",
+                        "content-dark": "#f8f5f5",
+                        "subtle-light": "#9e4747",
+                        "subtle-dark": "#a17878",
+                        "border-light": "#f4e6e6",
+                        "border-dark": "#4a2a2a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-screen min-h-screen w-full flex-col justify-between">
+<div class="flex-grow overflow-y-auto pb-24">
+<header class="sticky top-0 z-10 flex items-center border-b border-border-light bg-background-light/80 p-4 backdrop-blur-sm dark:border-border-dark dark:bg-background-dark/80">
+<button class="text-content-light dark:text-content-dark">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-content-light dark:text-content-dark">Notifications</h1>
+<div class="w-8"></div>
+</header>
+<main class="px-4">
+<section class="pt-6">
+<h2 class="text-xl font-bold text-content-light dark:text-content-dark">Alert Types</h2>
+<div class="mt-4 space-y-2">
+<div class="flex items-center justify-between rounded-lg bg-background-light p-4 shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Theft Alerts</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Receive alerts for theft incidents.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-border-light after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:border-gray-600 dark:bg-border-dark"></div>
+</label>
+</div>
+<div class="flex items-center justify-between rounded-lg bg-background-light p-4 shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Assault Alerts</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Receive alerts for assault incidents.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-border-light after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:border-gray-600 dark:bg-border-dark"></div>
+</label>
+</div>
+<div class="flex items-center justify-between rounded-lg bg-background-light p-4 shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Robbery Alerts</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Receive alerts for robbery incidents.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input checked="" class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-border-light after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:border-gray-600 dark:bg-border-dark"></div>
+</label>
+</div>
+<div class="flex items-center justify-between rounded-lg bg-background-light p-4 shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Vandalism Alerts</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Receive alerts for vandalism incidents.</p>
+</div>
+<label class="relative inline-flex cursor-pointer items-center">
+<input class="peer sr-only" type="checkbox" value=""/>
+<div class="peer h-6 w-11 rounded-full bg-border-light after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/50 dark:border-gray-600 dark:bg-border-dark"></div>
+</label>
+</div>
+</div>
+</section>
+<section class="pt-8">
+<h2 class="text-xl font-bold text-content-light dark:text-content-dark">Alert Settings</h2>
+<div class="mt-4 space-y-2">
+<button class="flex w-full items-center justify-between rounded-lg bg-background-light p-4 text-left shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Alert Distance</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Set the maximum distance for receiving alerts.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-medium text-content-light dark:text-content-dark">5 km</span>
+<span class="material-symbols-outlined text-subtle-light dark:text-subtle-dark">arrow_forward_ios</span>
+</div>
+</button>
+<button class="flex w-full items-center justify-between rounded-lg bg-background-light p-4 text-left shadow-sm dark:bg-background-dark/50">
+<div>
+<h3 class="font-semibold text-content-light dark:text-content-dark">Notification Frequency</h3>
+<p class="text-sm text-subtle-light dark:text-subtle-dark">Adjust how often you receive notifications.</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-medium text-content-light dark:text-content-dark">Normal</span>
+<span class="material-symbols-outlined text-subtle-light dark:text-subtle-dark">arrow_forward_ios</span>
+</div>
+</button>
+</div>
+</section>
+</main>
+</div>
+<footer class="fixed bottom-0 left-0 right-0 border-t border-border-light bg-background-light/90 backdrop-blur-sm dark:border-border-dark dark:bg-background-dark/90">
+<nav class="flex justify-around px-4 pb-3 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-subtle-light dark:text-subtle-dark" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-xs font-medium">Map</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-subtle-light dark:text-subtle-dark" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-xs font-medium">Alerts</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-subtle-light dark:text-subtle-dark" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs font-medium">Profile</span>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-primary dark:text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">settings</span>
+<span class="text-xs font-bold">Settings</span>
+</a>
+</nav>
+</footer>
+</div>
+
+</body></html>

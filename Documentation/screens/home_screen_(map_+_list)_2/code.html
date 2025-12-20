@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alerte RDC - Tableau de Bord</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": {
+              "DEFAULT": "#DC2626",
+              "light": "#FEE2E2",
+            },
+            "neutral": {
+              "900": "#111827",
+              "800": "#1F2937",
+              "700": "#374151",
+              "600": "#4B5563",
+              "500": "#6B7280",
+              "400": "#9CA3AF",
+              "300": "#D1D5DB",
+              "200": "#E5E7EB",
+              "100": "#F3F4F6",
+              "50": "#F9FAFB",
+            },
+            "background": {
+              "light": "#FFFFFF",
+              "dark": "#121212"
+            },
+            "surface": {
+              "light": "#F9FAFB",
+              "dark": "#1F2937"
+            }
+          },
+          fontFamily: {
+            "inter": ["Inter", "sans-serif"],
+            "sf-pro": ["SF Pro Display", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+      font-family: 'Inter', 'SF Pro Display', sans-serif;
+    }
+    .dark body {
+      background-color: #121212;
+      color: #F3F4F6;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-neutral-900 dark:text-neutral-100">
+<div class="flex flex-col h-screen">
+<header class="p-4 flex items-center justify-between bg-background-light dark:bg-background-dark shadow-sm">
+<div></div>
+<h1 class="text-xl font-bold">Tableau de bord</h1>
+<button class="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800">
+<svg class="feather feather-menu" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<line x1="3" x2="21" y1="12" y2="12"></line>
+<line x1="3" x2="21" y1="6" y2="6"></line>
+<line x1="3" x2="21" y1="18" y2="18"></line>
+</svg>
+</button>
+</header>
+<main class="flex-grow flex flex-col">
+<div class="relative flex-grow">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDF212-l8L4q_hU7wX4-T_Jk82T5c31P6Q5L1z-9_vH2s4Qh8Y7X4Q9wQ6pZ8t1-7R6rY3k4b5v6p7c8d9e0f1-2-3-4-5-6-7-8-9");'>
+<div class="absolute top-[20%] left-[30%] size-4 bg-yellow-400 rounded-full border-2 border-white shadow-lg"></div>
+<div class="absolute top-[50%] left-[50%] size-5 bg-red-600 rounded-full border-2 border-white shadow-lg animate-pulse"></div>
+<div class="absolute top-[65%] left-[70%] size-4 bg-orange-500 rounded-full border-2 border-white shadow-lg"></div>
+<div class="absolute top-[35%] left-[80%] size-4 bg-yellow-400 rounded-full border-2 border-white shadow-lg"></div>
+</div>
+<div class="absolute top-4 left-4 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-sm p-3 rounded-lg shadow-md">
+<h3 class="text-sm font-semibold mb-2">Légende</h3>
+<div class="space-y-1 text-xs">
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-red-600"></div>
+<span>Haute gravité</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-orange-500"></div>
+<span>Moyenne gravité</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="size-3 rounded-full bg-yellow-400"></div>
+<span>Faible gravité</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light dark:from-background-dark to-transparent">
+<button class="w-full flex items-center justify-center gap-2 h-14 px-6 bg-primary text-white font-bold rounded-xl shadow-lg shadow-red-500/30 hover:bg-red-700 transition-all duration-300 transform active:scale-95">
+<svg class="feather feather-plus-circle" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<circle cx="12" cy="12" r="10"></circle>
+<line x1="12" x2="12" y1="8" y2="16"></line>
+<line x1="8" x2="16" y1="12" y2="12"></line>
+</svg>
+<span>Signaler une alerte</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark p-4 rounded-t-xl -mt-4 shadow-2xl">
+<details>
+<summary class="flex items-center justify-between cursor-pointer">
+<h2 class="text-lg font-bold">Alertes récentes</h2>
+<svg class="feather feather-chevron-down transition-transform duration-300" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+</summary>
+<div class="mt-4 space-y-3">
+<div class="flex items-center gap-4 p-3 rounded-lg bg-background-light dark:bg-neutral-800/50 hover:bg-primary-light/30 dark:hover:bg-primary-light/10">
+<div class="flex items-center justify-center rounded-lg bg-primary-light shrink-0 size-12">
+<svg class="text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+<circle cx="12" cy="12" r="3"></circle>
+</svg>
+</div>
+<div class="flex-grow">
+<p class="font-semibold text-neutral-800 dark:text-neutral-50">Vol à main armée</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Av. Kasa-Vubu, Kinshasa • il y a 10 min</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg bg-background-light dark:bg-neutral-800/50 hover:bg-primary-light/30 dark:hover:bg-primary-light/10">
+<div class="flex items-center justify-center rounded-lg bg-primary-light shrink-0 size-12">
+<svg class="text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+<circle cx="9" cy="7" r="4"></circle>
+<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+</svg>
+</div>
+<div class="flex-grow">
+<p class="font-semibold text-neutral-800 dark:text-neutral-50">Manifestation</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Bld du 30 Juin, Gombe • il y a 25 min</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg bg-background-light dark:bg-neutral-800/50 hover:bg-primary-light/30 dark:hover:bg-primary-light/10">
+<div class="flex items-center justify-center rounded-lg bg-primary-light shrink-0 size-12">
+<svg class="text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="m10.29 3.86-1.54 6.32a2 2 0 0 0 1.94 2.53l6.32-1.54a2 2 0 0 0-1.22-3.64L3.41 6.22a2 2 0 0 0-1.22 3.64l6.32-1.54a2 2 0 0 0 1.94-2.53z"></path>
+<path d="m14.71 6.86-1.54 6.32a2 2 0 0 0 1.94 2.53l6.32-1.54a2 2 0 0 0-1.22-3.64l-6.53-1.61a2 2 0 0 0-1.22 3.64l6.32-1.54a2 2 0 0 0 1.94-2.53z"></path>
+</svg>
+</div>
+<div class="flex-grow">
+<p class="font-semibold text-neutral-800 dark:text-neutral-50">Accident de la route</p>
+<p class="text-sm text-neutral-500 dark:text-neutral-400">Av. de la Justice, Matadi • il y a 40 min</p>
+</div>
+</div>
+</div>
+</details>
+</div>
+</main>
+</div>
+
+</body></html>

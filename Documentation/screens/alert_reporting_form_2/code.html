@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Signaler une Alerte</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#DC2626", // Rouge
+                        "secondary": "#1F2937", // Gris foncé / Noir
+                        "background": "#FFFFFF", // Blanc
+                        "surface": "#F3F4F6", // Gris clair
+                        "text-primary": "#111827",
+                        "text-secondary": "#6B7280",
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        'sf-pro': ['SF Pro Display', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        'lg': '0.75rem',
+                        'xl': '1rem',
+                        'full': '9999px',
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', 'SF Pro Display', sans-serif;
+            background-color: #FFFFFF;
+        }
+        .step-indicator {
+            height: 4px;
+            background-color: #E5E7EB;
+            border-radius: 2px;
+            flex-grow: 1;
+        }
+        .step-indicator.active {
+            background-color: #DC2626;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-text-primary">
+<div class="flex flex-col min-h-screen">
+<header class="p-4 flex items-center border-b border-surface">
+<button class="text-secondary">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<line x1="18" x2="6" y1="6" y2="18"></line>
+<line x1="6" x2="18" y1="6" y2="18"></line>
+</svg>
+</button>
+<h1 class="flex-1 text-center font-semibold text-lg pr-6">Signaler une alerte</h1>
+</header>
+<div class="p-4">
+<div class="flex space-x-2">
+<div class="step-indicator active"></div>
+<div class="step-indicator"></div>
+<div class="step-indicator"></div>
+<div class="step-indicator"></div>
+<div class="step-indicator"></div>
+</div>
+</div>
+<main class="flex-grow p-4">
+<div class="step-content" id="step-1">
+<h2 class="text-2xl font-bold mb-6">Quel type d'incident signalez-vous ?</h2>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Vol</span>
+<input checked="" class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Agression</span>
+<input class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Cambriolage</span>
+<input class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Vandalisme</span>
+<input class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Harcèlement</span>
+<input class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Autre</span>
+<input class="form-radio text-primary focus:ring-primary" name="incident_type" type="radio"/>
+</label>
+</div>
+</div>
+<div class="step-content hidden" id="step-2">
+<h2 class="text-2xl font-bold mb-6">Quel est le niveau d'urgence ?</h2>
+<div class="space-y-3">
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Bas</span>
+<input class="form-radio text-primary focus:ring-primary" name="urgency" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Moyen</span>
+<input checked="" class="form-radio text-primary focus:ring-primary" name="urgency" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 border border-surface rounded-lg has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+<span>Élevé</span>
+<input class="form-radio text-primary focus:ring-primary" name="urgency" type="radio"/>
+</label>
+</div>
+</div>
+<div class="step-content hidden" id="step-3">
+<h2 class="text-2xl font-bold mb-2">Décrivez brièvement l'incident</h2>
+<p class="text-text-secondary mb-4">Veuillez être aussi précis que possible.</p>
+<div class="relative">
+<textarea class="w-full p-4 border border-surface rounded-lg focus:ring-primary focus:border-primary" maxlength="200" placeholder="Ex: Un homme en t-shirt bleu a volé un sac à main..." rows="5"></textarea>
+<p class="absolute bottom-2 right-3 text-xs text-text-secondary">200 caractères max</p>
+</div>
+</div>
+<div class="step-content hidden" id="step-4">
+<h2 class="text-2xl font-bold mb-6">Ajouter une photo ou vidéo (facultatif)</h2>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-dashed border-surface rounded-lg">
+<div class="w-16 h-16 bg-surface rounded-full flex items-center justify-center mb-4">
+<svg class="text-secondary" fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+<polyline points="17 8 12 3 7 8"></polyline>
+<line x1="12" x2="12" y1="3" y2="15"></line>
+</svg>
+</div>
+<button class="bg-secondary text-white font-semibold py-2 px-4 rounded-lg">Télécharger un fichier</button>
+<p class="text-xs text-text-secondary mt-2">Le floutage des visages sera appliqué automatiquement.</p>
+</div>
+</div>
+<div class="step-content hidden" id="step-5">
+<h2 class="text-2xl font-bold mb-6">Confidentialité</h2>
+<div class="bg-surface p-4 rounded-lg">
+<label class="flex items-center justify-between">
+<span class="font-semibold">Publier anonymement</span>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle"></label>
+</div>
+</label>
+<p class="text-sm text-text-secondary mt-2">Si vous choisissez de publier anonymement, vos informations personnelles ne seront pas partagées.</p>
+</div>
+</div>
+</main>
+<footer class="p-4 border-t border-surface">
+<button class="w-full bg-primary text-white font-bold py-3 px-4 rounded-xl">Suivant</button>
+</footer>
+</div>
+<style>
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #DC2626;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #DC2626;
+        }
+    </style>
+
+</body></html>

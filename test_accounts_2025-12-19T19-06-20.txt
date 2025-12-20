@@ -1,0 +1,72 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                 COMPTES DE TEST GÉNÉRÉS - COPIE DE SAUVEGARDE                  ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Date/Heure: 2025-12-19 19:06:20.409007
+API Base URL: https://alert-app-nc1y.onrender.com/api
+
+═════════════════════════════════════════════════════════════════════════════════
+COMPTES CRÉÉS
+═════════════════════════════════════════════════════════════════════════════════
+
+┌─ User (User Standard)
+│  Email:        user_test_1766160355738@example.com
+│  Mot de passe: TestUser!@#123
+│  Prénom:       John
+│  Nom:          User
+│  Statut:       Actif
+└─
+
+┌─ Admin (Administrateur)
+│  Email:        admin_test_1766160355739@example.com
+│  Mot de passe: TestAdmin!@#123
+│  Prénom:       Alice
+│  Nom:          Admin
+│  Statut:       Actif
+└─
+
+┌─ Operator (Opérateur (Superviseur))
+│  Email:        operator_test_1766160355739@example.com
+│  Mot de passe: TestOperator!@#123
+│  Prénom:       Bob
+│  Nom:          Operator
+│  Statut:       Actif
+└─
+
+
+
+═════════════════════════════════════════════════════════════════════════════════
+COMMANDES DE TEST CURL
+═════════════════════════════════════════════════════════════════════════════════
+
+1️⃣  LOGIN (TOUS LES RÔLES)
+   curl -X POST https://alert-app-nc1y.onrender.com/api/users/login/ \
+     -H "Content-Type: application/json" \
+     -d '{"email":"user_email@example.com","password":"password"}'
+
+2️⃣  RÉCUPÉRER L'UTILISATEUR CONNECTÉ
+   curl -X GET https://alert-app-nc1y.onrender.com/api/users/me/ \
+     -H "Authorization: Bearer {access_token}"
+
+3️⃣  LISTER TOUS LES UTILISATEURS (Admin uniquement)
+   curl -X GET https://alert-app-nc1y.onrender.com/api/users/all/ \
+     -H "Authorization: Bearer {admin_token}"
+
+4️⃣  METTRE À JOUR LE PROFIL
+   curl -X POST https://alert-app-nc1y.onrender.com/api/users/edit-profile/ \
+     -H "Authorization: Bearer {token}" \
+     -H "Content-Type: multipart/form-data" \
+     -F "email=newemail@example.com" \
+     -F "firstname=NewFirstName"
+
+═════════════════════════════════════════════════════════════════════════════════
+NOTES IMPORTANTES
+═════════════════════════════════════════════════════════════════════════════════
+
+✅ Les comptes sont créés et actifs
+✅ Vous pouvez vous connecter immédiatement
+⚠️  Les comptes seront créés avec le rôle spécifié
+⚠️  Vérifiez que le rôle est correctement enregistré dans la base de données
+⚠️  Conservez ce fichier en lieu sûr
+
+═════════════════════════════════════════════════════════════════════════════════

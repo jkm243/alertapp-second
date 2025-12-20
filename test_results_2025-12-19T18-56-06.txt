@@ -1,0 +1,26 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║ RAPPORT DE VÉRIFICATION - INSCRIPTION ET CONNEXION ADMIN/SUPERVISEUR           ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+Date/Heure: 2025-12-19 18:56:06.702129
+API Base URL: https://alert-app-nc1y.onrender.com/api
+
+═════════════════════════════════════════════════════════════════════════════════
+RÉSULTATS DES TESTS
+═════════════════════════════════════════════════════════════════════════════════
+
+Admin: ⚠️  ÉCHEC - Rôle incorrect (User au lieu de Admin)
+Supervisor (Operator): ⚠️  ÉCHEC - Rôle incorrect (User au lieu de Operator)
+
+═════════════════════════════════════════════════════════════════════════════════
+CONCLUSION
+═════════════════════════════════════════════════════════════════════════════════
+
+❌ Tous les tests ont échoué
+
+Remarques importantes:
+- Les deux rôles se sont inscrits et connectés avec succès
+- Le rôle enregistré doit correspondre au rôle spécifié lors de l'inscription
+- Si le rôle ne correspond pas, vérifier le backend pour le traitement du rôle
+
+═════════════════════════════════════════════════════════════════════════════════

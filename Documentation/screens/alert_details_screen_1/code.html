@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alert Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#fa3333",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#230f0f",
+                        "content-light": "#230f0f",
+                        "content-dark": "#f8f5f5",
+                        "subtle-light": "#9e4747",
+                        "subtle-dark": "#a36e6e"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-content-light dark:text-content-dark">
+<div class="max-w-md mx-auto min-h-screen flex flex-col">
+<header class="flex items-center p-4 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-10">
+<button class="p-2 -ml-2">
+<svg class="text-content-light dark:text-content-dark" fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M165.66,202.34a8,8,0,0,1-11.32,0L82.34,130.34a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L99.31,128l66.35,63.02A8,8,0,0,1,165.66,202.34Z"></path></svg>
+</button>
+<h1 class="text-lg font-bold flex-1 text-center">Alert Details</h1>
+<div class="w-8"></div>
+</header>
+<main class="flex-grow">
+<div class="px-4">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8A0vTw80cedhPqp9tNWl99bZXnHNRBjyFNOsmzZgCXruY79cjGkQbmFdKPfv0BcWIwltglLM4nMk-Qm_wiE8DRbjDbShSJLxddr1HEbHiaTRvZYeVB1m8_ppdtB6NaNOSuFTFcQVIlrxlpWmrAJ2xiuURc48lF_0r4a_eLAXXbiN5-QNq8IZLELyvor3hRMEo6WaNKChXaDlNA1U0k6eTDVn2_cuJyL8MNPk_Ju5k97eQyQS-5HNtFkSC6KPxlrt1sE424zg0oIm8");'></div>
+</div>
+<div class="p-4 space-y-4">
+<h2 class="text-xl font-bold">Alert Information</h2>
+<div class="space-y-3">
+<div class="flex items-start gap-4">
+<div class="flex items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/20 shrink-0 size-12 text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<p class="font-semibold">Location</p>
+<p class="text-subtle-light dark:text-subtle-dark">Kinshasa, DRC</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/20 shrink-0 size-12 text-primary">
+<span class="material-symbols-outlined">priority_high</span>
+</div>
+<div>
+<p class="font-semibold">Urgency</p>
+<p class="text-primary font-bold">High</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex items-center justify-center rounded-lg bg-primary/10 dark:bg-primary/20 shrink-0 size-12 text-primary">
+<span class="material-symbols-outlined">security</span>
+</div>
+<div>
+<p class="font-semibold">Type</p>
+<p class="text-subtle-light dark:text-subtle-dark">Robbery</p>
+</div>
+</div>
+</div>
+</div>
+<div class="px-4 py-2">
+<div class="h-px bg-primary/10 dark:bg-primary/20"></div>
+</div>
+<div class="p-4 space-y-2">
+<h2 class="text-xl font-bold">Description</h2>
+<p class="text-subtle-light dark:text-subtle-dark leading-relaxed">
+                   A robbery was reported near the market. Please avoid the area and stay vigilant.
+                </p>
+</div>
+<div class="px-4 py-2">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnW92vNI4hSWfwqoSp9hRO1kbha_TrURI8i9JsCeW4kFLJfX3TyfEsmYvhtJAKKYyO7rBMCSTVjOI3FLG_2vR5m2eBmQ63Oga2bZeikGnZcfiYBBVlU01L86DZxTrAtfUZeZUrQ-krm95Te-1goI2U8Thxk7H7jes8x7JkyJHgQomwggfKOA_Em_IP_kt0VmAabxfanwK0K3ckZB5f0BzXE6FPKaMPjncuB4liWNhHLqjj36QpqoAJ6t1C1BZJMPBuh30l7b0qBiEf");'></div>
+</div>
+</main>
+<footer class="sticky bottom-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm mt-4">
+<div class="flex justify-around items-center py-2 border-t border-primary/10 dark:border-primary/20">
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark p-2" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-xs">Map</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary p-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">notifications</span>
+<span class="text-xs font-semibold">Alerts</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark p-2" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-xs">Profile</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-subtle-light dark:text-subtle-dark p-2" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-xs">Settings</span>
+</a>
+</div>
+</footer>
+</div>
+
+</body></html>

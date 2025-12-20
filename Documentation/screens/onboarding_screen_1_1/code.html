@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Real-time Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#fa3333",
+            "background-light": "#f8f5f5",
+            "background-dark": "#230f0f",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100">
+<div class="flex flex-col h-screen justify-between p-6">
+<header class="flex justify-end">
+<button class="text-gray-900 dark:text-gray-100">
+<svg fill="currentColor" height="28" viewBox="0 0 256 256" width="28" xmlns="http://www.w3.org/2000/svg">
+<path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+</svg>
+</button>
+</header>
+<main class="flex flex-col items-center text-center">
+<div class="w-full aspect-square max-w-xs mb-8">
+<div class="w-full h-full bg-center bg-no-repeat bg-cover rounded-xl" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6ufUtD9ctj7u6ERWkad8AyL-QPD_tZqRYq1aRFuYZiD3hp-51gaEriZJ9_nATgXJHrZKD9IHbvAy1Go-KJpc3qFQjKtOaCwmdyV9P2IBjQiGLO1oZwyRNNuFkvWwK_SMgWOTm4q6K1hkXi2FFtCvaIE3aM8laJDjzGSuC5_-fKfOts-c2Nyz-yU8VHl1spp4EY6kukanARTf0ZOwzbqC4H97A2WNt75aNXpMTUgDD1iq2MeGNogli_jB7yJu0hs5NopDfJsPgXZSh");'></div>
+</div>
+<h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Stay informed with real-time alerts</h1>
+<p class="text-base text-gray-600 dark:text-gray-300 max-w-sm">
+        Receive instant notifications about incidents in your area, helping you stay safe and aware of your surroundings.
+      </p>
+</main>
+<footer class="flex flex-col items-center gap-8">
+<div class="flex space-x-2">
+<div class="w-2.5 h-2.5 bg-primary rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-primary/20 dark:bg-primary/30 rounded-full"></div>
+<div class="w-2.5 h-2.5 bg-primary/20 dark:bg-primary/30 rounded-full"></div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-4 rounded-lg">
+        Next
+      </button>
+</footer>
+</div>
+
+</body></html>

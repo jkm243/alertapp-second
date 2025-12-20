@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Onboarding - Real-time Alerts</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#fa3333",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#230f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .icon-container {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-container svg {
+            width: 48px;
+            height: 48px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-zinc-900 dark:text-zinc-200">
+<div class="flex flex-col h-screen">
+<header class="flex justify-end p-4">
+<button class="text-zinc-900 dark:text-zinc-200">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+</svg>
+</button>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center text-center px-6">
+<div class="icon-container bg-primary/20">
+<svg class="text-primary" fill="none" height="48" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+<path d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h1 class="text-2xl font-bold mt-8 mb-4 text-zinc-900 dark:text-white">Stay informed with real-time alerts</h1>
+<p class="text-zinc-600 dark:text-zinc-400 max-w-sm">
+                Receive instant notifications about incidents in your area, helping you stay safe and aware of your surroundings.
+            </p>
+</main>
+<footer class="px-6 pb-8 pt-4">
+<div class="flex justify-center items-center gap-2 mb-6">
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+</div>
+<button class="w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-primary/90 transition-colors">
+                Next
+            </button>
+</footer>
+</div>
+
+</body></html>

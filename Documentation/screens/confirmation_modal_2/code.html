@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Confirmation Modal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#fa3333",
+                        "background-light": "#f8f5f5",
+                        "background-dark": "#230f0f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .font-display {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="fixed inset-0 bg-black/30 flex items-end justify-center">
+<div class="bg-background-light dark:bg-background-dark w-full max-w-md flex flex-col rounded-t-xl">
+<div class="flex justify-center py-3">
+<div class="w-10 h-1.5 bg-primary/20 dark:bg-primary/30 rounded-full"></div>
+</div>
+<div class="p-6 text-center">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white">Are you sure you want to report this incident?</h2>
+<p class="mt-2 text-base text-gray-600 dark:text-gray-300">This action cannot be undone and will notify authorities.</p>
+</div>
+<div class="grid grid-cols-2 gap-4 p-6 pt-2">
+<button class="w-full h-12 rounded-lg text-base font-bold bg-primary/10 dark:bg-primary/20 text-gray-800 dark:text-gray-200">
+                    Cancel
+                </button>
+<button class="w-full h-12 rounded-lg bg-primary text-white text-base font-bold">
+                    Report
+                </button>
+</div>
+<div class="h-8"></div>
+</div>
+</div>
+
+</body></html>

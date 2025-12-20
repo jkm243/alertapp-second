@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alerte RDC - Connexion &amp; Inscription</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+    :root {
+      --primary-red: #E53935;
+      --primary-black: #1C1C1E;
+      --primary-white: #FFFFFF;
+      --primary-gray: #8A8A8E;
+      --light-gray: #F2F2F7;
+      --dark-gray: #2C2C2E;
+    }
+    body {
+      font-family: 'Inter', 'SF Pro Display', sans-serif;
+      background-color: var(--primary-black);
+      color: var(--primary-white);
+    }
+    .container {
+      background-color: var(--primary-black);
+      padding: 1.5rem;
+    }
+    .tab-button {
+      flex: 1;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .tab-button.active {
+      background-color: var(--primary-red);
+      color: var(--primary-white);
+    }
+    .tab-button:not(.active) {
+      background-color: var(--dark-gray);
+      color: var(--primary-white);
+    }
+    .form-input {
+      background-color: var(--dark-gray);
+      border: 1px solid var(--dark-gray);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      color: var(--primary-white);
+      height: 3.5rem;}
+    .form-input::placeholder {
+      color: var(--primary-gray);
+    }
+    .form-input:focus {
+      border-color: var(--primary-red);
+      ring: 0;
+      box-shadow: none;
+    }
+    .btn-primary {
+      background-color: var(--primary-red);
+      color: var(--primary-white);
+      font-weight: 600;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      height: 3.5rem;transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #C62828;
+    }
+    .form-checkbox {
+        border-radius: 0.375rem;
+        background-color: var(--dark-gray);
+        border-color: var(--primary-gray);
+    }
+    .form-checkbox:checked {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body>
+<div class="container min-h-screen flex flex-col justify-center">
+<div class="max-w-md mx-auto w-full">
+<div class="text-center mb-8">
+<h1 class="text-3xl font-bold text-white">Alerte RDC</h1>
+<p class="text-gray-400 mt-2">Connectez-vous pour votre sécurité</p>
+</div>
+<div class="bg-zinc-800 p-1.5 rounded-xl flex space-x-2 mb-8">
+<button class="tab-button active" id="login-tab-btn" onclick="showTab('login')">Connexion</button>
+<button class="tab-button" id="register-tab-btn" onclick="showTab('register')">Inscription</button>
+</div>
+<div id="login-form">
+<form class="space-y-6">
+<div>
+<input class="form-input w-full" placeholder="Email ou nom d'utilisateur" type="text"/>
+</div>
+<div>
+<input class="form-input w-full" placeholder="Mot de passe" type="password"/>
+</div>
+<div class="text-right">
+<a class="text-sm text-red-500 hover:underline" href="#">Mot de passe oublié ?</a>
+</div>
+<button class="btn-primary w-full" type="submit">Se connecter</button>
+</form>
+</div>
+<div class="hidden" id="register-form">
+<form class="space-y-6">
+<div>
+<input class="form-input w-full" placeholder="Email" type="email"/>
+</div>
+<div>
+<input class="form-input w-full" placeholder="Nom d'utilisateur" type="text"/>
+</div>
+<div>
+<input class="form-input w-full" placeholder="Mot de passe" type="password"/>
+</div>
+<div>
+<div class="relative">
+<input class="form-input w-full pr-10" readonly="" type="text" value="République Démocratique du Congo"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+<svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" fill-rule="evenodd"></path>
+</svg>
+</div>
+</div>
+</div>
+<div class="flex items-start">
+<input class="form-checkbox h-5 w-5 mt-0.5" id="terms" type="checkbox"/>
+<label class="ml-3 text-sm text-gray-400" for="terms">J'accepte les <a class="text-red-500 hover:underline" href="#">termes et conditions</a></label>
+</div>
+<button class="btn-primary w-full" type="submit">S'inscrire</button>
+</form>
+</div>
+</div>
+</div>
+<script>
+    function showTab(tabName) {
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const loginTabBtn = document.getElementById('login-tab-btn');
+      const registerTabBtn = document.getElementById('register-tab-btn');
+      if (tabName === 'login') {
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+        loginTabBtn.classList.add('active');
+        registerTabBtn.classList.remove('active');
+      } else {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        loginTabBtn.classList.remove('active');
+        registerTabBtn.classList.add('active');
+      }
+    }
+  </script>
+
+</body></html>
