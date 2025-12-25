@@ -4,6 +4,7 @@ import '../widgets/api_test_widget.dart';
 import 'auth/login_page.dart';
 import 'permissions/location_permission_page.dart';
 import 'permissions/notification_permission_page.dart';
+import 'user/alerts_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const _AlertsTab(),
+    const AlertsListPage(),
     const _MapTab(),
     const _SettingsTab(),
   ];

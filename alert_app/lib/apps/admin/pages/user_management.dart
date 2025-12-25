@@ -129,7 +129,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${user.fullName.isNotEmpty ? user.fullName : "Nom non renseigné"}'),
+                                Text(user.fullName.isNotEmpty ? user.fullName : "Nom non renseigné"),
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [

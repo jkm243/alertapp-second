@@ -600,7 +600,7 @@ class ApiService {
     try {
       final response = await http
           .get(
-            Uri.parse('${ApiConfig.baseUrl}/api/users/me/'),
+            Uri.parse('${ApiConfig.baseUrl}${ApiConfig.meEndpoint}'),
             headers: _getAuthHeaders(token),
           )
           .timeout(ApiConfig.requestTimeout);
@@ -636,7 +636,7 @@ class ApiService {
 
       final response = await http
           .post(
-            Uri.parse('${ApiConfig.baseUrl}/api/users/edit-profile/'),
+            Uri.parse('${ApiConfig.baseUrl}${ApiConfig.profileEndpoint}'),
             headers: _getAuthHeaders(token),
             body: json.encode(requestBody),
           )

@@ -29,12 +29,22 @@ class ApiConfig {
   static const String usersPaginationEndpoint = '/users/pagination/';
   static const String userDetailEndpoint = '/users/{id}/';
 
-  // Alert Endpoints (corrigé: /alert/ au lieu de /alerts/)
-  static const String alertsEndpoint = '/alert/';
-  static const String alertDetailEndpoint = '/alert/{id}/';
-  static const String alertTypesEndpoint = '/alert/types/';
-  static const String alertTypeDetailEndpoint = '/alert/types/{id}/';
-  static const String createAlertEndpoint = '/alert/create/';
+  // Alert Endpoints
+  static const String alertsEndpoint = '/alert/alerts/';
+  static const String alertsAllEndpoint = '/alert/alerts/all/';
+  static const String alertsMyAlertsEndpoint = '/alert/alerts/my-alerts/';
+  static const String alertDetailEndpoint = '/alert/alerts/{id}/';
+  static const String alertValidateEndpoint = '/alert/alerts/{id}/validate/';
+  static const String alertUpdateEndpoint = '/alert/alerts/{id}/update/';
+  static const String alertDeleteEndpoint = '/alert/alerts/{id}/delete/';
+  static const String createAlertEndpoint = '/alert/alerts/create/';
+  
+  // Type Alert Endpoints
+  static const String alertTypesEndpoint = '/alert/typealerts/';
+  static const String alertTypeDetailEndpoint = '/alert/typealerts/{id}/';
+  static const String alertTypeCreateEndpoint = '/alert/typealerts/create/';
+  static const String alertTypeUpdateEndpoint = '/alert/typealerts/{id}/update/';
+  static const String alertTypeDeleteEndpoint = '/alert/typealerts/{id}/delete/';
 
   // Mission Endpoints
   static const String missionsEndpoint = '/missions/';

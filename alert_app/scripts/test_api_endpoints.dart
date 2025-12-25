@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 /// Script pour tester tous les endpoints de l'API
@@ -192,7 +191,7 @@ Future<void> main() async {
       if (tokenData is Map && tokenData.containsKey('access')) {
         authToken = tokenData['access'] as String;
         print('   ✅ Token obtenu avec succès');
-        print('   Token (premiers 20 caractères): ${authToken!.substring(0, authToken.length > 20 ? 20 : authToken.length)}...');
+        print('   Token (premiers 20 caractères): ${authToken.substring(0, authToken.length > 20 ? 20 : authToken.length)}...');
       }
     } else {
       print('   ❌ Impossible d\'obtenir le token');

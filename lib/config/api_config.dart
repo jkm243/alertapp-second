@@ -36,9 +36,16 @@ class ApiConfig {
   static const String alertDetailEndpoint = '/alert/alerts/{id}/';
   static const String alertUpdateEndpoint = '/alert/alerts/{id}/update/';
   static const String alertDeleteEndpoint = '/alert/alerts/{id}/delete/';
+  static const String alertsEndpoint = '/alert/alerts/';
+  static const String alertValidateEndpoint = '/alert/alerts/{id}/validate/';
+
+  // Alert Types Endpoints
+  static const String alertTypesEndpoint = '/alert/typealerts/';
   static const String alertTypeListEndpoint = '/alert/typealerts/';
   static const String alertTypeDetailEndpoint = '/alert/typealerts/{id}/';
-  static const String alertValidateEndpoint = '/alert/alerts/{id}/validate/';
+  static const String alertTypeCreateEndpoint = '/alert/typealerts/';
+  static const String alertTypeUpdateEndpoint = '/alert/typealerts/{id}/';
+  static const String alertTypeDeleteEndpoint = '/alert/typealerts/{id}/';
 
   // Mission Endpoints
   static const String missionsEndpoint = '/missions/';

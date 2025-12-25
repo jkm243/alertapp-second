@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../../models/api_models.dart';
 import '../../services/api_service.dart';
 import '../../services/authentication_service.dart';
-import '../../widgets/primary_button.dart';
 
 class AlertDetailsPage extends StatefulWidget {
   final Alert alert;
@@ -247,7 +246,7 @@ class _AlertDetailsPageState extends State<AlertDetailsPage> {
                       ...[
                       const SizedBox(height: 4),
                       Text(
-                        _alert.user.email!,
+                        _alert.user.email,
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

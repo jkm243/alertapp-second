@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../design_system/colors.dart' as design_colors;
 import '../services/authentication_service.dart';
-import 'auth/login_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -203,7 +202,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: design_colors.AppColors.primary,
+            activeThumbColor: design_colors.AppColors.primary,
           ),
         ],
       ),
@@ -246,7 +245,7 @@ class _SettingsPageState extends State<SettingsPage> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: design_colors.AppColors.primary,
+            activeThumbColor: design_colors.AppColors.primary,
           ),
         ],
       ),

@@ -14,7 +14,6 @@ class UserProfilePage extends StatefulWidget {
 class _UserProfilePageState extends State<UserProfilePage> {
   late Future<User> _userFuture;
   late Future<List<Alert>> _alertsFuture;
-  final _authService = AuthenticationService();
 
   @override
   void initState() {
@@ -32,13 +31,17 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Future<User> _fetchUserData() async {
-    final token = _authService.accessToken;
+    final authService = AuthenticationService();
+    await authService.initialize();
+    final token = authService.accessToken;
     if (token == null) throw Exception('Token non disponible');
     return ApiService.getCurrentUser(token);
   }
 
   Future<List<Alert>> _fetchAlerts() async {
-    final token = _authService.accessToken;
+    final authService = AuthenticationService();
+    await authService.initialize();
+    final token = authService.accessToken;
     if (token == null) throw Exception('Token non disponible');
     return ApiService.getUserAlerts(token);
   }
@@ -595,7 +598,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
     required String telephone,
   }) async {
     try {
-      final token = _authService.accessToken;
+      final authService = AuthenticationService();
+      await authService.initialize();
+      final token = authService.accessToken;
       if (token == null) throw Exception('Token non disponible');
 
       await ApiService.editUserProfile(
@@ -664,7 +669,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
 
     try {
-      final token = _authService.accessToken;
+      final authService = AuthenticationService();
+      await authService.initialize();
+      final token = authService.accessToken;
       if (token == null) throw Exception('Token non disponible');
 
       await ApiService.changePassword(

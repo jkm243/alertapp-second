@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../design_system/colors.dart';
 import '../../services/authentication_service.dart';
+import '../../services/alert_service.dart';
+import '../../models/api_models.dart';
 import 'pages/login_page.dart';
 
 class AdminHomePage extends StatefulWidget {
@@ -264,8 +266,80 @@ class UsersTab extends StatelessWidget {
 }
 
 // Alerts Tab
-class AlertsTab extends StatelessWidget {
+class AlertsTab extends StatefulWidget {
   const AlertsTab({super.key});
+
+  @override
+  State<AlertsTab> createState() => _AlertsTabState();
+}
+
+class _AlertsTabState extends State<AlertsTab> {
+  List<Alert> _alerts = [];
+  bool _isLoading = true;
+  String _filterStatus = 'all';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAlerts();
+  }
+
+  Future<void> _loadAlerts() async {
+    setState(() => _isLoading = true);
+    try {
+      final authService = AuthenticationService();
+      await authService.initialize();
+      final token = authService.accessToken;
+      
+      if (token != null) {
+        final alerts = await AlertService.getAllAlerts(token);
+        setState(() {
+          _alerts = alerts;
+          _isLoading = false;
+        });
+      } else {
+        setState(() => _isLoading = false);
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erreur: ${e.toString()}')),
+        );
+      }
+    }
+  }
+
+  List<Alert> get _filteredAlerts {
+    if (_filterStatus == 'all') return _alerts;
+    return _alerts.where((alert) {
+      switch (_filterStatus) {
+        case 'new':
+          return alert.status == StatusEnum.new_;
+        case 'validated':
+          return alert.status == StatusEnum.validated;
+        default:
+          return true;
+      }
+    }).toList();
+  }
+
+  String _getStatusText(StatusEnum status) {
+    switch (status) {
+      case StatusEnum.new_:
+        return 'Nouveau';
+      case StatusEnum.validated:
+        return 'Validé';
+      case StatusEnum.rejected:
+        return 'Rejeté';
+      case StatusEnum.inProgress:
+        return 'En cours';
+      case StatusEnum.resolved:
+        return 'Résolu';
+      case StatusEnum.closed:
+        return 'Fermé';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -281,81 +355,76 @@ class AlertsTab extends StatelessWidget {
           const SizedBox(height: 20),
 
           // Filter buttons
-          Row(
-            children: [
-              FilterChip(
-                label: const Text('Toutes'),
-                selected: true,
-                onSelected: (selected) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: const Text('En attente'),
-                selected: false,
-                onSelected: (selected) {},
-              ),
-              const SizedBox(width: 8),
-              FilterChip(
-                label: const Text('Vérifiées'),
-                selected: false,
-                onSelected: (selected) {},
-              ),
-            ],
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _buildFilterChip('Toutes', 'all'),
+                const SizedBox(width: 8),
+                _buildFilterChip('En attente', 'new'),
+                const SizedBox(width: 8),
+                _buildFilterChip('Validées', 'validated'),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
 
           // Alerts List
-          ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 15, // Mock data
-            itemBuilder: (context, index) {
-              return Card(
-                margin: const EdgeInsets.only(bottom: 8),
-                child: ExpansionTile(
-                  title: Text('Alerte ${index + 1}'),
-                  subtitle: Text('Statut: ${index % 3 == 0 ? 'Vérifiée' : index % 3 == 1 ? 'En cours' : 'En attente'}'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('Détails de l\'alerte:'),
-                          const SizedBox(height: 8),
-                          const Text('Description détaillée de l\'alerte...'),
-                          const SizedBox(height: 16),
-                          Row(
+          _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _filteredAlerts.isEmpty
+                  ? const Center(child: Text('Aucune alerte'))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _filteredAlerts.length,
+                      itemBuilder: (context, index) {
+                        final alert = _filteredAlerts[index];
+                        return Card(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: ExpansionTile(
+                            title: Text(alert.type.name ?? 'Type inconnu'),
+                            subtitle: Text('Statut: ${_getStatusText(alert.status)}'),
                             children: [
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('Vérification manuelle'),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: const Text('Vérification automatique'),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.green,
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    if (alert.description != null)
+                                      Text('Description: ${alert.description}'),
+                                    if (alert.latitude != null && alert.longitude != null)
+                                      Text('Position: ${alert.latitude}, ${alert.longitude}'),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () => _loadAlerts(),
+                                          child: const Text('Actualiser'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                child: const Text('Ajouter informations'),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFilterChip(String label, String value) {
+    final isSelected = _filterStatus == value;
+    return FilterChip(
+      label: Text(label),
+      selected: isSelected,
+      onSelected: (selected) {
+        setState(() => _filterStatus = value);
+      },
     );
   }
 }

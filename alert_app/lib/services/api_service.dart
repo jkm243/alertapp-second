@@ -16,8 +16,8 @@ class ApiService {
         'Authorization': 'Bearer $token',
       };
 
-  // Gestion des erreurs HTTP
-  static ApiError _handleHttpError(http.Response response) {
+  // Gestion des erreurs HTTP (public pour utilisation dans d'autres services)
+  static ApiError handleHttpError(http.Response response) {
     try {
       final errorData = json.decode(response.body);
       
@@ -106,8 +106,8 @@ class ApiService {
     }
   }
 
-  // Gestion des exceptions réseau
-  static ApiError _handleNetworkError(dynamic error) {
+  // Gestion des exceptions réseau (public pour utilisation dans d'autres services)
+  static ApiError handleNetworkError(dynamic error) {
     if (error is SocketException) {
       return ApiError(
         message: 'Erreur de connexion réseau. Vérifiez votre connexion internet.',
@@ -150,11 +150,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return LoginResponse.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -193,11 +193,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return SignupResponse.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -230,11 +230,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return RegisterResponse.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -252,11 +252,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return User.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -275,11 +275,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return LoginResponse.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -312,11 +312,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return User.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -346,11 +346,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return User.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -372,11 +372,11 @@ class ApiService {
           throw ApiError(message: 'Format de réponse invalide');
         }
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 
@@ -407,11 +407,11 @@ class ApiService {
         final responseData = json.decode(response.body);
         return UserPagination.fromJson(responseData);
       } else {
-        throw _handleHttpError(response);
+        throw handleHttpError(response);
       }
     } catch (e) {
       if (e is ApiError) rethrow;
-      throw _handleNetworkError(e);
+      throw handleNetworkError(e);
     }
   }
 }
