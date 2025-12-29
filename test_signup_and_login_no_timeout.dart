@@ -10,13 +10,14 @@ void main() async {
   const firstName = 'Test';
   const lastName = 'User';
 
-  print('🧪 Test Signup et Login (SANS TIMEOUT)');
+  print('🧪 Test Signup et Login (SANS TIMEOUT CLIENT)');
   print('=' * 60);
   
   try {
     // Test 1: Création de compte
     print('\n📝 Test 1: Création de compte...');
     print('Email: $email');
+    print('⏳ Attente de la réponse du serveur (peut être plus long si envoi d\'email)...\n');
     
     final signupResponse = await http.post(
       Uri.parse('$baseUrl/api/users/signup/'),
@@ -32,7 +33,7 @@ void main() async {
         'lastname': lastName,
         'role': 'User',
       }),
-    );
+    ).timeout(Duration(seconds: 120));
 
     print('Status: ${signupResponse.statusCode}');
     print('Response: ${signupResponse.body}');
@@ -57,7 +58,7 @@ void main() async {
         'email': email,
         'password': password,
       }),
-    );
+    ).timeout(Duration(seconds: 60));
 
     print('Status: ${loginResponse.statusCode}');
     print('Response: ${loginResponse.body}');
