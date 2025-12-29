@@ -201,6 +201,48 @@ class ApiService {
     }
   }
 
+  /// Raw signup returning decoded JSON (useful to extract server messages)
+  static Future<dynamic> signupRaw({
+    required String email,
+    required String password1,
+    required String password2,
+    required String firstname,
+    required String lastname,
+    String? middlename,
+    String? telephone,
+    String role = 'User',
+  }) async {
+    try {
+      final signupRequest = SignupRequest(
+        email: email,
+        password1: password1,
+        password2: password2,
+        firstname: firstname,
+        lastname: lastname,
+        middlename: middlename,
+        telephone: telephone,
+        role: role,
+      );
+
+      final response = await http
+          .post(
+            Uri.parse('${ApiConfig.baseUrl}${ApiConfig.registerEndpoint}'),
+            headers: _defaultHeaders,
+            body: json.encode(signupRequest.toJson()),
+          );
+
+      final responseData = json.decode(response.body);
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        return responseData;
+      } else {
+        throw _handleHttpError(response);
+      }
+    } catch (e) {
+      if (e is ApiError) rethrow;
+      throw _handleNetworkError(e);
+    }
+  }
+
   /// Inscription utilisateur (ancienne méthode pour compatibilité)
   static Future<RegisterResponse> register({
     required String email,

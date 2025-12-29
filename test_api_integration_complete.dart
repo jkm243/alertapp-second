@@ -282,20 +282,17 @@ class ApiIntegrationTester {
     const endpoint = '/users/edit-profile/';
     try {
       print('$_blue→ Testing: $endpoint$_reset');
+      // The API expects multipart/form-data for profile updates (see OpenAPI).
+      final uri = Uri.parse('$baseUrl$endpoint');
+      final request = http.MultipartRequest('POST', uri);
+      request.headers['Authorization'] = 'Bearer $accessToken';
+      request.fields['firstname'] = 'Updated';
+      request.fields['lastname'] = 'User';
+      request.fields['email'] = 'updated_${DateTime.now().millisecondsSinceEpoch}@example.com';
+      request.fields['telephone'] = '+243970000000';
 
-      final response = await http.post(
-        Uri.parse('$baseUrl$endpoint'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $accessToken',
-        },
-        body: jsonEncode({
-          'firstname': 'Updated',
-          'lastname': 'User',
-          'email': 'updated_${DateTime.now().millisecondsSinceEpoch}@example.com',
-          'telephone': '+243970000000',
-        }),
-      ).timeout(Duration(seconds: 30));
+      final streamed = await request.send().timeout(Duration(seconds: 30));
+      final response = await http.Response.fromStream(streamed);
 
       final passed = response.statusCode == 200;
       results.add(TestResult(
@@ -311,6 +308,8 @@ class ApiIntegrationTester {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         print('  Updated: ${data['firstname']} ${data['lastname']}');
+      } else {
+        print('  Body: ${response.body}');
       }
       print('');
     } catch (e) {

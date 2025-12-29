@@ -163,11 +163,12 @@ class AuthenticationService extends ChangeNotifier {
         return AuthResult.error('Le nom du milieu contient des caractères non autorisés ou est trop long');
       }
 
-      // Retry once on transient network/timeout errors
+      // Retry once on transient network/timeout errors, and extract server message if present
       int attempts = 0;
+      dynamic signupResponse;
       while (attempts < 2) {
         try {
-          await ApiService.signup(
+          signupResponse = await ApiService.signupRaw(
             email: email,
             password1: password1,
             password2: password2,
@@ -185,7 +186,12 @@ class AuthenticationService extends ChangeNotifier {
         }
       }
 
-      return AuthResult.success('Inscription réussie. Vous pouvez maintenant vous connecter.');
+      // If API returned a message, use it. Otherwise fall back to default.
+      String successMessage = 'Inscription réussie. Vous pouvez maintenant vous connecter.';
+      if (signupResponse is Map && signupResponse.containsKey('message')) {
+        successMessage = signupResponse['message'].toString();
+      }
+      return AuthResult.success(successMessage);
     } on ApiError catch (e) {
       return AuthResult.error(e.message);
     } catch (e) {
@@ -318,17 +324,15 @@ class AuthenticationService extends ChangeNotifier {
     if (email.isEmpty || email.length < 5 || email.length > 254) {
       return false;
     }
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email.trim());
+    // Regex simplifiée: accepte plus de formats (ex: john.doe+tag@example.co.uk)
+    return RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(email.trim());
   }
 
   bool isValidPassword(String password) {
-    if (password.length < 6 || password.length > 128) {
+    if (password.isEmpty || password.length < 1) {
       return false;
     }
-    // Vérification de caractères dangereux
-    if (password.contains('<') || password.contains('>') || password.contains('"') || password.contains("'")) {
-      return false;
-    }
+    // Vérification minimale: juste pas vide et pas < 1 caractère
     return true;
   }
 
