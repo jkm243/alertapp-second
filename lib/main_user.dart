@@ -3,8 +3,24 @@ import 'apps/user/user_home.dart';
 import 'pages/onboarding/onboarding_page.dart';
 import 'pages/auth/login_page.dart';
 import 'design_system/theme.dart';
+import 'services/authentication_service.dart';
+import 'services/location_service.dart';
 
-void main() => runApp(UserApp());
+void main() async {
+  print('🚀 Starting User App...');
+  
+  // Initialize authentication service
+  final authService = AuthenticationService();
+  initializeAuthService(authService);
+  await authService.initialize();
+  
+  // Request location permissions
+  print('📍 Requesting location permissions...');
+  await locationService.requestLocationPermission();
+  
+  print('✅ App initialized');
+  runApp(const UserApp());
+}
 
 class UserApp extends StatelessWidget {
   const UserApp({super.key});
@@ -16,7 +32,7 @@ class UserApp extends StatelessWidget {
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      home: OnboardingPage(), // onboarding is shared; the app's home is the user wrapper (Home page uses services)
+      home: OnboardingPage(),
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => const UserHomeWrapper(),

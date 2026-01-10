@@ -4,6 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'api_service.dart';
 import '../models/api_models.dart';
 
+// Instance globale d'authentification
+late AuthenticationService _authService;
+
+AuthenticationService get authService => _authService;
+
+void initializeAuthService(AuthenticationService service) {
+  _authService = service;
+}
+
 class AuthenticationService extends ChangeNotifier {
   static const String _tokenKey = 'auth_token';
   static const String _userKey = 'user_data';

@@ -13,11 +13,12 @@ class AlertListPage extends StatefulWidget {
 
 class _AlertListPageState extends State<AlertListPage> {
   late Future<List<Alert>> _alertsFuture;
-  final _authService = AuthenticationService();
+  late AuthenticationService _authService;
 
   @override
   void initState() {
     super.initState();
+    _authService = authService; // Use global auth service
     _loadAlerts();
   }
 

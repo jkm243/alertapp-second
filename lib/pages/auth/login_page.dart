@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      final authService = AuthenticationService();
       final result = await authService.login(
         _emailController.text.trim(),
         _passwordController.text,
@@ -42,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
       if (mounted) {
         if (result.isSuccess) {
+          print('✅ Login successful, token now available: ${authService.accessToken != null}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(result.message),

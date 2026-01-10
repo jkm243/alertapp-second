@@ -509,6 +509,32 @@ class ApiService {
     }
   }
 
+  /// Récupérer toutes les alertes validées
+  static Future<List<Alert>> getValidatedAlerts(String token) async {
+    try {
+      final response = await http
+          .get(
+            Uri.parse('${ApiConfig.baseUrl}/api/alert/alerts/all/validate/'),
+            headers: _getAuthHeaders(token),
+          )
+          .timeout(ApiConfig.requestTimeout);
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        if (responseData is List) {
+          return responseData.map((alertJson) => Alert.fromJson(alertJson)).toList();
+        } else {
+          throw ApiError(message: 'Format de réponse invalide');
+        }
+      } else {
+        throw _handleHttpError(response);
+      }
+    } catch (e) {
+      if (e is ApiError) rethrow;
+      throw _handleNetworkError(e);
+    }
+  }
+
   /// Créer une nouvelle alerte
   static Future<Alert> createAlert({
     required String token,

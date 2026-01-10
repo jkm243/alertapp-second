@@ -20,11 +20,12 @@ class _AlertDetailsPageState extends State<AlertDetailsPage> {
   bool _isLoading = false;
   bool _isEditing = false;
   late Alert _alert;
-  final _authService = AuthenticationService();
+  late AuthenticationService _authService;
 
   @override
   void initState() {
     super.initState();
+    _authService = authService; // Use global auth service
     _alert = widget.alert;
     _descriptionController = TextEditingController(text: _alert.description ?? '');
   }

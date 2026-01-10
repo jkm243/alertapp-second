@@ -3,6 +3,7 @@ import '../../design_system/colors.dart';
 import '../../models/api_models.dart';
 import '../../services/api_service.dart';
 import '../../services/authentication_service.dart';
+import '../../services/location_service.dart';
 
 class AddAlertPage extends StatefulWidget {
   final Alert? alertToEdit;
@@ -26,13 +27,15 @@ class _AddAlertPageState extends State<AddAlertPage> {
   bool _isLoading = false;
   late Future<List<TypeAlert>> _alertTypesFuture;
   TypeAlert? _selectedType;
-  final _authService = AuthenticationService();
+  late AuthenticationService _authService;
   int _currentStep = 1; // 1 = type, 2 = description, 3 = location
 
   @override
   void initState() {
     super.initState();
+    _authService = authService; // Use global auth service instance
     _loadAlertTypes();
+    _getLocation(); // Récupérer la localisation
     
     // Si on édite une alerte
     if (widget.alertToEdit != null) {
@@ -51,10 +54,54 @@ class _AddAlertPageState extends State<AddAlertPage> {
 
   void _loadAlertTypes() {
     final token = _authService.accessToken;
+    print('🔍 _loadAlertTypes called');
+    print('   Token: ${token != null ? "Available" : "NULL"}');
+    
     if (token != null) {
-      _alertTypesFuture = ApiService.getAlertTypes(token);
+      _alertTypesFuture = ApiService.getAlertTypes(token).then((types) {
+        print('   ✅ Types loaded: ${types.length}');
+        for (var t in types) {
+          print('      - ${t.name} (${t.id})');
+        }
+        return types;
+      }).catchError((e, stackTrace) {
+        print('   ❌ Error loading types: $e');
+        print('   Stack: $stackTrace');
+        throw e;
+      });
     } else {
+      print('   ❌ No token available');
       _alertTypesFuture = Future.error('Token non disponible');
+    }
+  }
+
+  Future<void> _getLocation() async {
+    print('📍 Getting user location...');
+    try {
+      final position = await locationService.getCurrentLocation();
+      
+      if (position != null && mounted) {
+        setState(() {
+          _latitudeController.text = position.latitude.toStringAsFixed(6);
+          _longitudeController.text = position.longitude.toStringAsFixed(6);
+          _locationController.text = 
+            '${position.latitude.toStringAsFixed(6)}, ${position.longitude.toStringAsFixed(6)}';
+        });
+        print('✅ Location auto-filled in form');
+      } else if (mounted) {
+        print('⚠️ Could not get location');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Impossible de récupérer votre localisation. Veuillez vérifier les permissions.',
+            ),
+            backgroundColor: Colors.orange,
+            duration: Duration(seconds: 5),
+          ),
+        );
+      }
+    } catch (e) {
+      print('❌ Error getting location: $e');
     }
   }
 
@@ -76,24 +123,36 @@ class _AddAlertPageState extends State<AddAlertPage> {
       return;
     }
 
+    // Valider les coordonnées GPS
+    double? latitude = double.tryParse(_latitudeController.text.trim());
+    double? longitude = double.tryParse(_longitudeController.text.trim());
+
+    if (!LocationService.isValidCoordinates(latitude, longitude)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Coordonnées GPS invalides ou manquantes. Veuillez les autoriser.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     try {
       final token = _authService.accessToken;
+      print('📤 Submitting alert:');
+      print('   Token: ${token != null ? "Available" : "NULL"}');
+      print('   Type: ${_selectedType?.name} (${_selectedType?.id})');
+      print('   Description: ${_descriptionController.text.trim()}');
+      
       if (token == null) throw Exception('Token non disponible');
 
-      double? latitude;
-      double? longitude;
-      
-      if (_latitudeController.text.trim().isNotEmpty) {
-        latitude = double.tryParse(_latitudeController.text.trim());
-      }
-      if (_longitudeController.text.trim().isNotEmpty) {
-        longitude = double.tryParse(_longitudeController.text.trim());
-      }
+      print('   Latitude: $latitude, Longitude: $longitude');
 
       if (widget.alertToEdit != null) {
         // Édition d'une alerte existante
+        print('   Mode: Update alert ${widget.alertToEdit!.id}');
         await ApiService.updateAlert(
           token: token,
           alertId: widget.alertToEdit!.id,
@@ -104,6 +163,7 @@ class _AddAlertPageState extends State<AddAlertPage> {
         );
       } else {
         // Création d'une nouvelle alerte
+        print('   Mode: Create new alert');
         await ApiService.createAlert(
           token: token,
           type: _selectedType!.id,
@@ -113,6 +173,7 @@ class _AddAlertPageState extends State<AddAlertPage> {
         );
       }
 
+      print('✅ Alert submitted successfully');
       setState(() => _isLoading = false);
 
       if (mounted) {
@@ -129,12 +190,32 @@ class _AddAlertPageState extends State<AddAlertPage> {
         Navigator.of(context).pop(true);
       }
     } catch (e) {
+      print('❌ Error submitting alert');
+      print('   Exception type: ${e.runtimeType}');
+      print('   Exception: $e');
+      
+      String errorMessage = 'Une erreur est survenue';
+      
+      // Essayer de récupérer le message d'erreur
+      if (e is ApiError) {
+        print('   ✓ Is ApiError');
+        print('   Message: ${e.message}');
+        print('   Status: ${e.statusCode}');
+        errorMessage = e.message;
+      } else if (e is Exception) {
+        print('   Is Exception: ${e.toString()}');
+        errorMessage = e.toString().replaceFirst('Exception: ', '');
+      } else {
+        print('   Unknown error type: $e');
+      }
+      
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erreur: ${e.toString()}'),
+            content: Text(errorMessage),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
           ),
         );
       }
@@ -284,49 +365,152 @@ class _AddAlertPageState extends State<AddAlertPage> {
         FutureBuilder<List<TypeAlert>>(
           future: _alertTypesFuture,
           builder: (context, snapshot) {
+            print('🔍 FutureBuilder snapshot:');
+            print('   connectionState: ${snapshot.connectionState}');
+            print('   hasData: ${snapshot.hasData}');
+            print('   hasError: ${snapshot.hasError}');
+            if (snapshot.hasError) print('   error: ${snapshot.error}');
+            if (snapshot.hasData) print('   data length: ${snapshot.data?.length}');
+            
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
             }
+            
             if (snapshot.hasError) {
-              return Text('Erreur: ${snapshot.error}');
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.red[50],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.red),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '❌ Erreur: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red, fontSize: 14),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() => _loadAlertTypes());
+                      },
+                      child: const Text('Réessayer'),
+                    ),
+                  ],
+                ),
+              );
             }
+            
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Text('Aucun type d\'alerte disponible');
+              return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange[50],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.orange),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '⚠️ Aucun type d\'alerte disponible',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(height: 12),
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() => _loadAlertTypes());
+                      },
+                      child: const Text('Recharger'),
+                    ),
+                  ],
+                ),
+              );
             }
 
+            final types = snapshot.data!;
+            print('✅ Rendering ${types.length} types');
+            
             return Column(
-              children: snapshot.data!.map((type) {
+              children: List.generate(types.length, (index) {
+                final type = types[index];
                 final isSelected = _selectedType?.id == type.id;
+                print('   Type $index: ${type.name} (selected: $isSelected)');
+                
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: GestureDetector(
-                    onTap: () => setState(() => _selectedType = type),
-                    child: Container(
+                    onTap: () {
+                      print('🎯 Selected type: ${type.name}');
+                      setState(() => _selectedType = type);
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected ? AppColors.primary : Colors.grey[300]!,
-                          width: 2,
+                          width: isSelected ? 3 : 1,
                         ),
                         color: isSelected
-                            ? AppColors.primary.withValues(alpha: 0.1)
+                            ? AppColors.primary.withValues(alpha: 0.15)
                             : Colors.white,
+                        boxShadow: isSelected
+                            ? [
+                                BoxShadow(
+                                  color: AppColors.primary.withValues(alpha: 0.2),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : [],
                       ),
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            type.name ?? 'Inconnu',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF230F0F),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  type.name ?? 'Inconnu',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: const Color(0xFF230F0F),
+                                  ),
+                                ),
+                                if (type.description != null && type.description!.isNotEmpty) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    type.description!,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.grey[600],
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ],
                             ),
                           ),
+                          const SizedBox(width: 12),
                           Container(
-                            width: 24,
-                            height: 24,
+                            width: 28,
+                            height: 28,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -336,7 +520,7 @@ class _AddAlertPageState extends State<AddAlertPage> {
                               color: isSelected ? AppColors.primary : Colors.white,
                             ),
                             child: isSelected
-                                ? const Icon(Icons.check, size: 14, color: Colors.white)
+                                ? const Icon(Icons.check, size: 16, color: Colors.white)
                                 : null,
                           ),
                         ],
@@ -344,7 +528,7 @@ class _AddAlertPageState extends State<AddAlertPage> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
             );
           },
         ),
@@ -407,6 +591,32 @@ class _AddAlertPageState extends State<AddAlertPage> {
           ),
         ),
         const SizedBox(height: 24),
+        // Avertissement
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.blue[50],
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.blue[200]!),
+          ),
+          child: Row(
+            children: [
+              Icon(Icons.info, color: Colors.blue[700], size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Les coordonnées GPS sont obligatoires',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.blue[700],
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
         TextFormField(
           controller: _locationController,
           decoration: InputDecoration(
@@ -427,23 +637,16 @@ class _AddAlertPageState extends State<AddAlertPage> {
               child: TextFormField(
                 controller: _latitudeController,
                 keyboardType: TextInputType.number,
+                readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Latitude',
+                  labelText: 'Latitude *',
                   hintText: '0.000',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Colors.grey[100],
                 ),
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    if (double.tryParse(value) == null) {
-                      return 'Format invalide';
-                    }
-                  }
-                  return null;
-                },
               ),
             ),
             const SizedBox(width: 12),
@@ -451,26 +654,32 @@ class _AddAlertPageState extends State<AddAlertPage> {
               child: TextFormField(
                 controller: _longitudeController,
                 keyboardType: TextInputType.number,
+                readOnly: true,
                 decoration: InputDecoration(
-                  labelText: 'Longitude',
+                  labelText: 'Longitude *',
                   hintText: '0.000',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Colors.grey[100],
                 ),
-                validator: (value) {
-                  if (value != null && value.trim().isNotEmpty) {
-                    if (double.tryParse(value) == null) {
-                      return 'Format invalide';
-                    }
-                  }
-                  return null;
-                },
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: _isLoading ? null : _getLocation,
+            icon: const Icon(Icons.my_location),
+            label: const Text('Actualiser la localisation'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+          ),
         ),
       ],
     );
@@ -585,13 +794,22 @@ class _AddAlertPageState extends State<AddAlertPage> {
   }
 
   void _handleNextStep() {
+    print('📍 _handleNextStep called - currentStep: $_currentStep');
+    
     if (_currentStep == 1) {
+      print('   Checking type selection: $_selectedType');
       if (_selectedType == null) {
+        print('   ❌ No type selected! Showing error.');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Veuillez sélectionner un type')),
+          const SnackBar(
+            content: Text('Veuillez sélectionner un type'),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 2),
+          ),
         );
         return;
       }
+      print('   ✅ Type selected: ${_selectedType!.name}');
       setState(() => _currentStep = 2);
     } else if (_currentStep == 2) {
       if (!_formKey.currentState!.validate()) return;

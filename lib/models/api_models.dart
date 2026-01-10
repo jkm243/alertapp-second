@@ -218,6 +218,7 @@ class Alert {
   final double? latitude;
   final double? longitude;
   final StatusEnum status;
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
   final List<AlertMedia> medias;
 

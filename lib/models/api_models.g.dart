@@ -124,7 +124,7 @@ Alert _$AlertFromJson(Map<String, dynamic> json) => Alert(
   latitude: (json['latitude'] as num?)?.toDouble(),
   longitude: (json['longitude'] as num?)?.toDouble(),
   status: $enumDecode(_$StatusEnumEnumMap, json['status']),
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  createdAt: DateTime.parse(json['created_at'] as String),
   medias: (json['medias'] as List<dynamic>)
       .map((e) => AlertMedia.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -138,7 +138,7 @@ Map<String, dynamic> _$AlertToJson(Alert instance) => <String, dynamic>{
   'latitude': instance.latitude,
   'longitude': instance.longitude,
   'status': _$StatusEnumEnumMap[instance.status]!,
-  'createdAt': instance.createdAt.toIso8601String(),
+  'created_at': instance.createdAt.toIso8601String(),
   'medias': instance.medias,
 };
 

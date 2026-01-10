@@ -103,208 +103,247 @@ class _AlertsTab extends StatefulWidget {
   State<_AlertsTab> createState() => __AlertsTabState();
 }
 
-class __AlertsTabState extends State<_AlertsTab> {
+class __AlertsTabState extends State<_AlertsTab> with TickerProviderStateMixin {
   final TextEditingController _searchController = TextEditingController();
-  late Future<List<Alert>> _alertsFuture;
-  final _authService = AuthenticationService();
+  late Future<List<Alert>> _myAlertsFuture;
+  late Future<List<Alert>> _validatedAlertsFuture;
+  late TabController _tabController;
+  late AuthenticationService _authService;
 
   @override
   void initState() {
     super.initState();
+    _authService = authService;
+    _tabController = TabController(length: 2, vsync: this);
     _loadAlerts();
   }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   void _loadAlerts() {
     setState(() {
-      _alertsFuture = _fetchAlerts();
+      _myAlertsFuture = _fetchMyAlerts();
+      _validatedAlertsFuture = _fetchValidatedAlerts();
     });
   }
 
-  Future<List<Alert>> _fetchAlerts() async {
+  Future<List<Alert>> _fetchMyAlerts() async {
     final token = _authService.accessToken;
     if (token == null) throw Exception('Token non disponible');
     return ApiService.getUserAlerts(token);
   }
 
+  Future<List<Alert>> _fetchValidatedAlerts() async {
+    final token = _authService.accessToken;
+    if (token == null) throw Exception('Token non disponible');
+    return ApiService.getValidatedAlerts(token);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        // Sticky header
-        SliverAppBar(
-          pinned: true,
-          backgroundColor: design_colors.AppColors.background,
-          elevation: 0,
-          centerTitle: true,
-          title: const Text(
-            'Alertes',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF230F0F),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: design_colors.AppColors.background,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text(
+          'Alertes',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF230F0F),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.menu, color: Colors.grey[700]),
-              onPressed: () => _showMenuDialog(context),
-            ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.menu, color: Colors.grey[700]),
+            onPressed: () => _showMenuDialog(context),
+          ),
+        ],
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: design_colors.AppColors.primary,
+          unselectedLabelColor: Colors.grey[600],
+          indicatorColor: design_colors.AppColors.primary,
+          tabs: const [
+            Tab(text: 'Mes alertes'),
+            Tab(text: 'Alertes validées'),
           ],
         ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Search bar
-                Container(
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Colors.grey[300]!,
-                      width: 1,
-                    ),
-                  ),
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Rechercher...',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Map placeholder
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[300],
-                  ),
-                  child: Center(
-                    child: Icon(
-                      Icons.map,
-                      size: 48,
-                      color: Colors.grey[400],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Recent alerts heading
-                Text(
-                  'Alertes récentes',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildAlertsListView(_myAlertsFuture, 'mes'),
+          _buildAlertsListView(_validatedAlertsFuture, 'validated'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAlertsListView(Future<List<Alert>> alertsFuture, String type) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {
+          _loadAlerts();
+        });
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Search bar
+                  Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.grey[300]!,
+                        width: 1,
                       ),
-                ),
-              ],
+                    ),
+                    child: TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Rechercher...',
+                        hintStyle: TextStyle(color: Colors.grey[400]),
+                        border: InputBorder.none,
+                        prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
+                        contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Map placeholder
+                  Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.grey[300],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.map,
+                        size: 48,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Recent alerts heading
+                  Text(
+                    type == 'mes' ? 'Mes alertes' : 'Alertes validées',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        // Alerts list
-        FutureBuilder<List<Alert>>(
-          future: _alertsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 32),
-                        const CircularProgressIndicator(),
-                        const SizedBox(height: 16),
-                        const Text('Chargement...'),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-
-            if (snapshot.hasError) {
-              return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Icon(Icons.error_outline, size: 48, color: Colors.red[400]),
-                        const SizedBox(height: 16),
-                        const Text('Erreur de chargement'),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () => _loadAlerts(),
-                          child: const Text('Réessayer'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-
-            final alerts = snapshot.data ?? [];
-            if (alerts.isEmpty) {
-              return SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.notifications_none, size: 48, color: Colors.grey[400]),
-                        const SizedBox(height: 16),
-                        const Text('Aucune alerte'),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }
-
-            return SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final alert = alerts[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AlertDetailsPage(alert: alert),
-                          ),
-                        ).then((_) => _loadAlerts());
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: _buildAlertCard(alert),
+          // Alerts list
+          FutureBuilder<List<Alert>>(
+            future: alertsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 32),
+                          const CircularProgressIndicator(),
+                          const SizedBox(height: 16),
+                          const Text('Chargement...'),
+                        ],
                       ),
-                    );
-                  },
-                  childCount: alerts.length,
+                    ),
+                  ),
+                );
+              }
+
+              if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          Icon(Icons.error_outline, size: 48, color: Colors.red[400]),
+                          const SizedBox(height: 16),
+                          const Text('Erreur de chargement'),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () => setState(() {_loadAlerts();}),
+                            child: const Text('Réessayer'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              final alerts = snapshot.data ?? [];
+              if (alerts.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.notifications_none, size: 48, color: Colors.grey[400]),
+                          const SizedBox(height: 16),
+                          Text(type == 'mes' ? 'Aucune alerte' : 'Aucune alerte validée'),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              return SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final alert = alerts[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AlertDetailsPage(alert: alert),
+                            ),
+                          ).then((_) => _loadAlerts());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: _buildAlertCard(alert),
+                        ),
+                      );
+                    },
+                    childCount: alerts.length,
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
-      ],
+              );
+            },
+          ),
+          SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+        ],
+      ),
     );
   }
 

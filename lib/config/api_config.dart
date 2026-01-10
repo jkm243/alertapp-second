@@ -1,9 +1,12 @@
 class ApiConfig {
   // URL de base de l'API
-  static const String baseUrl = 'https://alert-app-nc1y.onrender.com/api';
+  // Changez cette URL selon votre environnement:
+  // Local: 'http://127.0.0.1:8000/api'
+  // Render: 'https://alert-app-nc1y.onrender.com/api'
+  static const String baseUrl = 'http://127.0.0.1:8000/api';
 
-  // Timeout pour les requêtes (augmenté pour Render qui peut être en veille)
-  static const Duration requestTimeout = Duration(seconds: 60);
+  // Timeout pour les requêtes
+  static const Duration requestTimeout = Duration(seconds: 30);
 
   // Headers par défaut
   static const Map<String, String> defaultHeaders = {

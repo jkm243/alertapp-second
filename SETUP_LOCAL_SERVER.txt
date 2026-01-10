@@ -1,0 +1,34 @@
+📋 INSTRUCTIONS POUR INITIALISER LE SERVEUR LOCAL
+=========================================================
+
+Le serveur Django est lancé mais la base de données n'est pas initialisée.
+Les migrations n'ont pas été appliquées.
+
+✅ ÉTAPES À SUIVRE:
+
+1️⃣  ARRÊTEZ le serveur (Ctrl+C dans la terminal Django)
+
+2️⃣  Naviguez dans le dossier du backend:
+   cd H:\Coding\Flutter\alert-app-backend\Alert-app
+
+3️⃣  Appliquez les migrations:
+   python manage.py makemigrations
+   python manage.py migrate
+
+4️⃣  (Optionnel) Créez un super utilisateur admin:
+   python manage.py createsuperuser
+
+5️⃣  Relancez le serveur:
+   python manage.py runserver
+
+6️⃣  Une fois le serveur relancé, exécutez le test:
+   dart run test_local_signup_login.dart
+
+=========================================================
+
+💡 NOTES:
+- Les tables de base (users_user, auth_user, etc.) seront créées par les migrations
+- Vous pourrez accéder à l'admin Django à http://127.0.0.1:8000/admin/
+- La documentation Swagger sera à http://127.0.0.1:8000/api/docs
+
+=========================================================
